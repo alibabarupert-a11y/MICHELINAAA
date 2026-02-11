@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Michelina ❤️</title>
+<title>Para Michelina ❤️</title>
 
 <style>
 
@@ -16,7 +16,7 @@ text-align:center;
 background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
 }
 
-/* FONDO GALAXIA */
+/* ESTRELLAS */
 .stars{
 position:fixed;
 width:100%;
@@ -37,11 +37,11 @@ from{background-position:0 0;}
 to{background-position:-1000px 1000px;}
 }
 
-/* CONTENIDO */
 .container{
 position:relative;
 z-index:5;
-top:25vh;
+top:28vh;
+padding:20px;
 }
 
 h1{
@@ -52,68 +52,91 @@ text-shadow:0 0 20px #ff4da6;
 
 .buttons{
 margin-top:30px;
-display:flex;
-justify-content:center;
-gap:40px;
 position:relative;
+height:80px;
 }
 
-button{
-padding:15px 40px;
+#yes{
+position:relative;
+background:#ff2e88;
+color:white;
+box-shadow:0 0 20px #ff2e88;
+padding:15px 35px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
-transition:all 0.3s ease;
-}
-
-#yes{
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
 }
 
 #no{
+position:absolute;
+left:60%;
 background:#222;
 color:white;
-position:relative;
+padding:15px 35px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
 }
 
 /* MENSAJES */
 .messageBox{
 position:fixed;
 background:#111;
-padding:30px;
+padding:40px;
 border-radius:25px;
 border:3px solid #ff2e88;
 z-index:9999;
+font-size:22px;
+max-width:300px;
 box-shadow:0 0 30px #ff2e88;
+animation:float 3s ease-in-out infinite alternate;
+}
+
+@keyframes float{
+from{transform:translateY(0px);}
+to{transform:translateY(20px);}
 }
 
 .closeBtn{
 position:absolute;
-top:8px;
-right:12px;
+top:10px;
+right:15px;
 background:none;
 border:none;
 color:white;
-font-size:18px;
+font-size:20px;
 cursor:pointer;
 }
 
-/* SÍ GIGANTE FINAL */
+/* CORAZONES */
+.shootingHeart{
+position:fixed;
+font-size:20px;
+z-index:2;
+animation:shoot 4s linear forwards;
+text-shadow:0 0 20px #ff4da6;
+}
+
+@keyframes shoot{
+0%{transform:translate(0,0); opacity:1;}
+100%{transform:translate(-800px,800px); opacity:0;}
+}
+
+/* SI GIGANTE */
 .bigYes{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:70px;
+font-size:65px;
 background:#ff2e88;
-padding:60px 100px;
+padding:50px 90px;
 border-radius:50px;
 z-index:10000;
 animation:heartbeat 1s infinite;
-box-shadow:0 0 50px #ff2e88;
+box-shadow:0 0 40px #ff2e88;
 }
 
 @keyframes heartbeat{
@@ -122,16 +145,13 @@ box-shadow:0 0 50px #ff2e88;
 100%{transform:translate(-50%,-50%) scale(1);}
 }
 
-.finalScreen{
+#countdown{
 position:fixed;
-width:100%;
-height:100%;
-background: radial-gradient(circle, #2b0033, #000);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:11000;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:35px;
+text-shadow:0 0 20px #ff2e88;
 }
 
 </style>
@@ -156,141 +176,120 @@ con tu negro? ❤️
 
 <script>
 
+/* CORAZONES */
+function createHeart(){
+let heart=document.createElement("div");
+heart.className="shootingHeart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*window.innerWidth+"px";
+heart.style.top=Math.random()*window.innerHeight/2+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+}
+setInterval(createHeart,800);
+
+/* FRASES */
 let warnings=[
-"¿Segura?",
+"⚠️ ¿Segura?",
 "ja ja que tontaaaa 😜",
 "imposibleeee",
 "one two tree 🌳",
 "hasta luego lucas 😏",
 "soy tu grano favorito",
+"😗 silbando...",
+".........",
 "que no pesadaaa 😂",
 "vengaaaa casi",
 "tu puedes 💪",
-"noooo",
-"imposible",
-"ni de broma",
-"error en tu decisión",
-"esto no va así",
-"última oportunidad",
-"piénsalo bien",
-"segurísima?",
+"amor detectado 💘",
+"no puedes escapar 😈",
+"última advertencia romántica",
 "❌ Error 404"
 ];
 
 let count=0;
 let activeMessages=0;
-let errorBox=null;
 
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 
-/* BOTON NO */
 noBtn.addEventListener("click",()=>{
 
 if(count < warnings.length){
 
 let box=document.createElement("div");
 box.className="messageBox";
-
-let size=Math.random()*20+18;
-box.style.fontSize=size+"px";
+box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
 
 box.style.top=Math.random()*70+"%";
 box.style.left=Math.random()*70+"%";
-
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
+box.style.transform="scale("+(1 + Math.random()*0.5)+") rotate("+(Math.random()*20-10)+"deg)";
 
 document.body.appendChild(box);
-
-if(warnings[count] === "❌ Error 404"){
-errorBox=box;
-}
-
 activeMessages++;
 
 box.querySelector(".closeBtn").onclick=()=>{
-
-if(box === errorBox){
-if(activeMessages === 1){
-box.remove();
-showBigYes();
-}
-}else{
 box.remove();
 activeMessages--;
+
+if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){
+showBigYes();
 }
 };
 
-count++;
+noBtn.style.top=Math.random()*80+"%";
+noBtn.style.left=Math.random()*80+"%";
+noBtn.style.transform="scale("+(1 - count*0.05)+")";
 
-/* mover y reducir NO */
-let currentSize=parseFloat(window.getComputedStyle(noBtn).fontSize);
-if(currentSize > 10){
-noBtn.style.fontSize=(currentSize-2)+"px";
-noBtn.style.transform=`translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
-}else{
-noBtn.style.opacity="0";
-}
+count++;
 
 }
 
 });
 
-/* SÍ GIGANTE */
 function showBigYes(){
+document.body.innerHTML="<div class='stars'></div>";
 let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
-
-big.onclick=()=>{
-showFinal();
-};
+big.addEventListener("click",showLoveMessage);
 }
 
-/* PANTALLA FINAL */
-function showFinal(){
+yesBtn.addEventListener("click",showLoveMessage);
 
-document.body.innerHTML="";
+function showLoveMessage(){
+document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
+setTimeout(startCountdown,3000);
+}
 
-let final=document.createElement("div");
-final.className="finalScreen";
+function startCountdown(){
+document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
+let countdown=document.getElementById("countdown");
 
-let text=document.createElement("h1");
-text.innerHTML="Sabía que dirías que sí ❤️<br><br>";
-
-let timer=document.createElement("div");
-timer.style.fontSize="25px";
-
-final.appendChild(text);
-final.appendChild(timer);
-document.body.appendChild(final);
-
-/* TEMPORIZADOR hasta viernes 14:00 */
-function updateTimer(){
-let now=new Date();
 let target=new Date();
-target.setHours(14,0,0,0);
+target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
+target.setHours(14,0,0);
 
-while(target < now){
-target.setDate(target.getDate()+1);
+function update(){
+let now=new Date().getTime();
+let distance=target - now;
+
+if(distance<=0){
+countdown.innerHTML="Espera impaciente ❤️";
+return;
 }
 
-let diff=target-now;
+let d=Math.floor(distance/(1000*60*60*24));
+let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let m=Math.floor((distance%(1000*60*60))/(1000*60));
+let s=Math.floor((distance%(1000*60))/1000);
 
-let h=Math.floor(diff/1000/60/60);
-let m=Math.floor(diff/1000/60)%60;
-let s=Math.floor(diff/1000)%60;
-
-timer.innerHTML="Cuenta atrás: "+h+"h "+m+"m "+s+"s ❤️";
-
-if(diff<=0){
-timer.innerHTML="Espera impaciente ❤️";
-}
+countdown.innerHTML=d+"d "+h+"h "+m+"m "+s+"s ❤️";
 }
 
-setInterval(updateTimer,1000);
-
+setInterval(update,1000);
+update();
 }
 
 </script>
