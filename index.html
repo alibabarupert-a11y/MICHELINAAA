@@ -136,6 +136,7 @@ cursor: pointer;
     opacity: 0.15;
     z-index: 1;
     animation: pulseBg 1.5s infinite;
+    transition: all 0.5s ease;
 }
 
 @keyframes pulseBg {
@@ -144,12 +145,21 @@ cursor: pointer;
     100% { transform: translate(-50%, -50%) scale(1); }
 }
 
+.explode {
+    animation: explodeAnim 0.5s forwards !important;
+}
+
+@keyframes explodeAnim {
+    0% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.15; }
+    100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+}
+
 #countdown{
 position:fixed;
 top:55%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:26px;
+font-size:32px;
 width: 90%;
 text-shadow:0 0 20px #ff4da6;
 z-index: 10;
@@ -226,20 +236,20 @@ noBtn.addEventListener("click",()=>{
     }
 });
 
-function createConfetti() {
+function createConfetti(amount = 70) {
     const hearts = ["❤️", "💖", "💝", "💕", "💗"];
-    for(let i = 0; i < 70; i++) {
+    for(let i = 0; i < amount; i++) {
         setTimeout(() => {
             const c = document.createElement("div");
             c.className = "confetti";
             c.innerText = hearts[Math.floor(Math.random() * hearts.length)];
             c.style.left = Math.random() * 100 + "vw";
             c.style.top = "-5vh";
-            c.style.fontSize = Math.random() * 20 + 15 + "px";
+            c.style.fontSize = Math.random() * 20 + 20 + "px";
             c.style.animationDuration = Math.random() * 3 + 2 + "s";
             document.body.appendChild(c);
             setTimeout(() => c.remove(), 5000);
-        }, i * 70);
+        }, i * 50);
     }
 }
 
@@ -260,20 +270,23 @@ function showLoveMessage(){
 
     document.body.innerHTML = `
         <div class='stars'></div>
-        <div class='bgHeart'>❤️</div>
+        <div class='bgHeart' id='mainHeart'>❤️</div>
         <div class='finalTitle'>❤️ FELIZ SAN VALENTIN AMOR ❤️</div>
-        <div id='countdown'>Sabía que ibas a decir que sí ❤️</div>
+        <div id='countdown'>Cargando sorpresa...</div>
     `;
-    createConfetti();
-    setTimeout(startCountdown, 3000);
+    createConfetti(40);
+    setTimeout(startCountdown, 2000);
 }
 
 function startCountdown(){
     const countdownContainer = document.getElementById('countdown');
+    const mainHeart = document.getElementById('mainHeart');
+    
     let now = new Date();
     let target = new Date();
     let day = now.getDay();
     let daysUntilFriday = (5 - day + 7) % 7;
+    
     if(daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
     target.setDate(now.getDate() + daysUntilFriday);
     target.setHours(14,0,0,0);
@@ -281,14 +294,23 @@ function startCountdown(){
     function update(){
         let nowTime=new Date().getTime();
         let distance=target - nowTime;
-        if(distance<=0){ countdownContainer.innerHTML="¡Es hoy! ❤️"; return; }
+        
+        if(distance<=0){ 
+            countdownContainer.innerHTML="Aun no, tranquila ❤️"; 
+            mainHeart.classList.add('explode');
+            createConfetti(150);
+            if (navigator.vibrate) navigator.vibrate([500, 100, 500]);
+            return; 
+        }
+        
         let d=Math.floor(distance/(1000*60*60*24));
         let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
         let m=Math.floor((distance%(1000*60*60))/(1000*60));
         let s=Math.floor((distance%(1000*60))/1000);
-        countdownContainer.innerHTML = `Faltan:<br>${d}d ${h}h ${m}m ${s}s<br>para verte ❤️`;
+        
+        countdownContainer.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
     }
-    setInterval(update,1000);
+    setInterval(update, 1000);
     update();
 }
 </script>
