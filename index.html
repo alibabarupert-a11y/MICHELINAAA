@@ -1,189 +1,269 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Michelina ❤</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Segoe UI', sans-serif;
-            color: white;
-            text-align: center;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-        }
-
-        /* Estrellas estáticas */
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(2px 2px at 20% 30%, white, transparent),
-                        radial-gradient(1px 1px at 70% 80%, white, transparent),
-                        radial-gradient(2px 2px at 40% 60%, white, transparent);
-            background-size: 300px 300px;
-            z-index: 0;
-        }
-
-        /* Estrellas fugaces de corazones */
-        .shooting-heart {
-            position: absolute;
-            color: #ff4da6;
-            font-size: 20px;
-            user-select: none;
-            pointer-events: none;
-            z-index: 1;
-            animation: shoot 4s linear infinite;
-            opacity: 0;
-        }
-
-        @keyframes shoot {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(800px, 800px) rotate(360deg); opacity: 0; }
-        }
-
-        .container {
-            position: relative;
-            z-index: 5;
-            top: 20vh;
-        }
-
-        h1 {
-            font-size: 28px;
-            text-shadow: 0 0 20px #ff4da6;
-            padding: 0 20px;
-        }
-
-        .buttons {
-            margin-top: 30px;
-            position: relative;
-            display: inline-block;
-        }
-
-        #yes, #no {
-            padding: 15px 35px;
-            font-size: 20px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        #yes {
-            background: #ff2e88;
-            color: white;
-            box-shadow: 0 0 20px #ff2e88;
-        }
-
-        #no {
-            background: #444;
-            color: white;
-            margin-left: 10px;
-        }
-
-        .messageBox {
-            position: fixed;
-            background: rgba(17, 17, 17, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            border: 2px solid #ff2e88;
-            z-index: 9999;
-            color: white;
-            box-shadow: 0 0 15px #ff2e88;
-        }
-
-        .confetti {
-            position: fixed;
-            z-index: 9999;
-            pointer-events: none;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Para Michelina ❤</title>
+<style>
+body{
+margin:0;
+overflow:hidden;
+font-family:'Segoe UI', sans-serif;
+color:white;
+text-align:center;
+background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
+touch-action: manipulation;
+}
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(2px 2px at 20% 30%, white, transparent),
+radial-gradient(1px 1px at 70% 80%, white, transparent),
+radial-gradient(2px 2px at 40% 60%, white, transparent),
+radial-gradient(1px 1px at 90% 10%, white, transparent);
+background-repeat:repeat;
+background-size:300px 300px;
+animation:moveStars 80s linear infinite;
+z-index:0;
+}
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:-1000px 1000px;}
+}
+.container{
+position:relative;
+z-index:5;
+top:15vh;
+padding:10px;
+}
+h1{
+font-size:24px;
+line-height:1.3;
+text-shadow:0 0 20px #ff4da6;
+}
+.buttons{
+margin-top:20px;
+position:relative;
+display: inline-block;
+}
+/* Se quitan estilos de #minecraftSplash */
+#yes, #no{
+padding:12px 30px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+white-space: nowrap;
+}
+#yes{
+position:relative;
+background:#ff2e88;
+color:white;
+box-shadow:0 0 20px #ff2e88;
+}
+#no{
+position:absolute;
+left:50%;
+top:70px;
+transform: translateX(-50%);
+background:#222;
+color:white;
+}
+.messageBox{
+position:fixed;
+background:#111;
+padding:25px;
+border-radius:20px;
+border:3px solid #ff2e88;
+z-index:9999;
+font-size:18px;
+width: 200px;
+box-shadow:0 0 30px #ff2e88;
+cursor: pointer;
+}
+/* PANTALLA FINAL */
+.finalTitle {
+ position: fixed;
+ top: 5vh;
+ left: 0;
+ width: 100%;
+ color: #ff0000;
+ font-size: 28px;
+ font-weight: bold;
+ text-shadow: 0 0 15px rgba(255,0,0,0.7);
+ z-index: 20;
+ padding: 0 10px;
+ box-sizing: border-box;
+}
+.bgHeart {
+ position: fixed;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ font-size: 250px;
+ opacity: 0.15;
+ z-index: 1;
+ animation: pulseBg 1.5s infinite;
+ transition: all 0.5s ease;
+}
+@keyframes pulseBg {
+ 0% { transform: translate(-50%, -50%) scale(1); }
+ 50% { transform: translate(-50%, -50%) scale(1.2); }
+ 100% { transform: translate(-50%, -50%) scale(1); }
+}
+.explode {
+ animation: explodeAnim 0.5s forwards !important;
+}
+@keyframes explodeAnim {
+ 0% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.15; }
+ 100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+}
+#countdown{
+position:fixed;
+top:55%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:32px;
+width: 90%;
+text-shadow:0 0 20px #ff4da6;
+z-index: 10;
+font-weight: bold;
+}
+.confetti {
+ position: fixed;
+ z-index: 9999;
+ pointer-events: none;
+ animation: fall linear forwards;
+}
+@keyframes fall {
+ to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+</style>
 </head>
 <body>
-    <div class="stars"></div>
-    <div id="shooting-container"></div>
+<div class="stars"></div>
+<div class="container">
+<h1>Michelina <br>¿Quieres celebrar San Valentín<br>conmigo? </h1> ❤ ❤
+<div class="buttons">
+<button id="yes">Sí </button> ❤
+<button id="no">No </button> ❌
+<!-- Eliminado: <div id="minecraftSplash">¿No lo ves?</div> -->
+</div>
+</div>
+<!-- Eliminado: <audio id="errorSound" src="..."></audio> -->
+<!-- Eliminado: <audio id="successSound" src="..."></audio> -->
+<script>
+let warnings=[" ¿Segura?", "ja ja que tontaaaa ", "imposibleeee", "one two ⚠ 😜\ntree ", "hasta luego lucas ", "soy tu grano favorito", " silbando...", ".........", "que no pesadaaa ", "vengaaaa casi", "tu puedes ", "amor 😂 💪\ndetectado ", "no puedes escapar ", "última advertencia romántica", " 💘 😈 ❌\nError 404"];
+let splashes = ["¿Tan difícil es?", "¿No lo ves?", "¡Dale al SÍ!", "Piénsalo \nbien...", "¡Esa no es!", "¡Error fatal!", "¿En serio?", "Sigue buscando"];
+let count=0;
+let activeMessages=0;
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+// Eliminado: const splashEl=document.getElementById("minecraftSplash");
+// Eliminado: const errorSound = document.getElementById("errorSound");
+// Eliminado: const successSound = document.getElementById("successSound");
 
-    <div class="container" id="main-content">
-        <h1>Michelina ❤<br>¿Quieres celebrar San Valentín conmigo?</h1>
-        <div class="buttons">
-            <button id="yes">¡Sí! ❤</button>
-            <button id="no">No ❌</button>
-        </div>
-    </div>
-
-    <script>
-        const warnings = ["¿Segura?", "¡Inténtalo de nuevo!", "Imposible...", "Casi lo tienes", "¡Ups!", "No puedes escapar", "Error 404"];
-        let count = 0;
-
-        // Generador de estrellas fugaces (corazones)
-        function createShootingHeart() {
-            const container = document.getElementById('shooting-container');
-            const heart = document.createElement('div');
-            heart.className = 'shooting-heart';
-            heart.innerHTML = '❤';
-            heart.style.left = Math.random() * window.innerWidth + 'px';
-            heart.style.top = Math.random() * -100 + 'px';
-            heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            container.appendChild(heart);
-            setTimeout(() => heart.remove(), 4000);
-        }
-        setInterval(createShootingHeart, 1000);
-
-        const noBtn = document.getElementById("no");
-        const yesBtn = document.getElementById("yes");
-
-        noBtn.addEventListener("click", () => {
-            if (count < warnings.length) {
-                let box = document.createElement("div");
-                box.className = "messageBox";
-                box.innerHTML = warnings[count];
-                box.style.left = Math.random() * (window.innerWidth - 150) + "px";
-                box.style.top = Math.random() * (window.innerHeight - 100) + "px";
-                document.body.appendChild(box);
-                
-                setTimeout(() => box.remove(), 2000);
-
-                // Mover el botón NO
-                noBtn.style.position = "fixed";
-                noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-                noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
-                count++;
-            }
-        });
-
-        yesBtn.onclick = () => {
-            document.body.innerHTML = `
-                <div class="stars"></div>
-                <div style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:100%;">
-                    <h1 style="font-size:40px; color:#ff2e88; text-shadow: 0 0 20px #ff2e88;">
-                        ¡FELIZ SAN VALENTÍN AMOR! ❤
-                    </h1>
-                </div>
-            `;
-            createConfetti();
-        };
-
-        function createConfetti() {
-            for(let i = 0; i < 100; i++) {
-                setTimeout(() => {
-                    const c = document.createElement("div");
-                    c.className = "confetti";
-                    c.innerText = "❤";
-                    c.style.left = Math.random() * 100 + "vw";
-                    c.style.top = "-5vh";
-                    c.style.color = "#ff2e88";
-                    c.style.fontSize = (Math.random() * 20 + 20) + "px";
-                    c.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                    document.body.appendChild(c);
-                }, i * 50);
-            }
-        }
-    </script>
+noBtn.addEventListener("click",()=>{
+ // Eliminado: errorSound.currentTime = 0;
+ // Eliminado: errorSound.play().catch(()=>{});
+ // Eliminado: if (navigator.vibrate) navigator.vibrate(100);
+ if(count < warnings.length){
+ let box=document.createElement("div");
+ box.className="messageBox";
+ box.innerHTML=warnings[count];
+ let maxX = window.innerWidth - 240;
+ let maxY = window.innerHeight - 150;
+ box.style.left = Math.max(10, Math.random() * maxX) + "px";
+ box.style.top = Math.max(10, Math.random() * maxY) + "px";
+ document.body.appendChild(box);
+ activeMessages++;
+ box.onclick=()=>{
+ box.remove();
+ activeMessages--;
+ if(warnings[count-1] === " Error 404" && activeMessages === 0){
+ showBigYes(); }
+ };
+ // Eliminado: splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+ noBtn.style.position = "fixed";
+ noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
+ noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
+ noBtn.style.transform="scale("+(1 - count*0.05)+")";
+ count++;
+ }
+});
+function createConfetti(amount = 70) {
+ const hearts = ["❤", "💖", "💝", "💕", "💗"];
+ for(let i = 0; i < amount; i++) {
+ setTimeout(() => {
+ const c = document.createElement("div");
+ c.className = "confetti";
+ c.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+ c.style.left = Math.random() * 100 + "vw";
+ c.style.top = "-5vh";
+ c.style.fontSize = Math.random() * 20 + 20 + "px";
+ c.style.animationDuration = Math.random() * 3 + 2 + "s";
+ document.body.appendChild(c);
+ setTimeout(() => c.remove(), 5000);
+ }, i * 50);
+ }
+}
+function showBigYes(){
+ document.body.innerHTML="<div class='stars'></div>";
+ let big=document.createElement("div");
+ big.style.cssText =
+"position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:heartbeat 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;color:white;";
+ big.innerText="SÍ ❤";
+ document.body.appendChild(big);
+ big.onclick = showLoveMessage;
+}
+yesBtn.onclick = showLoveMessage;
+function showLoveMessage(){
+ // Eliminado: successSound.play().catch(()=>{});
+ // Eliminado: if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+ document.body.innerHTML = `
+ <div class='stars'></div>
+ <div class='bgHeart' id='mainHeart'> ❤</div>
+ <div class='finalTitle'> FELIZ SAN VALENTIN AMOR ❤ ❤</div>
+ <div id='countdown'>Cargando sorpresa...</div>
+ `;
+ createConfetti(40);
+ setTimeout(startCountdown, 2000);
+}
+function startCountdown(){
+ const countdownContainer = document.getElementById('countdown');
+ const mainHeart = document.getElementById('mainHeart');
+ 
+ let now = new Date();
+ let target = new Date();
+ let day = now.getDay();
+ let daysUntilFriday = (5 - day + 7) % 7;
+ 
+ if(daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
+ target.setDate(now.getDate() + daysUntilFriday);
+ target.setHours(14,0,0,0);
+ function update(){
+ let nowTime=new Date().getTime();
+ let distance=target - nowTime;
+ 
+ if(distance<=0){
+ countdownContainer.innerHTML="Aun no, tranquila ❤";
+ mainHeart.classList.add('explode');
+ createConfetti(150);
+ // Eliminado: if (navigator.vibrate) navigator.vibrate([500, 100, 500]);
+ return;
+ }
+ 
+ let d=Math.floor(distance/(1000*60*60*24));
+ let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+ let m=Math.floor((distance%(1000*60*60))/(1000*60));
+ let s=Math.floor((distance%(1000*60))/1000);
+ countdownContainer.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+ }
+ setInterval(update, 1000);
+ update();
+}
+</script>
 </body>
 </html>
