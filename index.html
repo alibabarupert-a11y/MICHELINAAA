@@ -3,17 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Un Mensaje Especial</title>
+<title>Para Michelina ❤️</title>
 <!-- Librería para convertir el ticket en imagen descargable -->
 <script src="https://cdnjs.cloudflare.com"></script>
 
 <style>
 body{ margin:0; overflow:hidden; font-family:'Segoe UI', sans-serif; color:white; text-align:center; background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%); touch-action: manipulation; }
 
-/* ESTRELLAS FUGACES */
-.shooting-heart { position: fixed; top: -50px; color: #ff4da6; font-size: 20px; z-index: 1; animation: shootLinear 3s linear forwards; filter: drop-shadow(0 0 10px #ff4da6); }
-.shooting-heart::after { content: ''; position: absolute; top: 50%; right: 100%; width: 80px; height: 2px; background: linear-gradient(to right, transparent, #ff4da6); transform: translateY(-50%); }
-@keyframes shootLinear { 0% { transform: translate(0, 0) rotate(45deg); opacity: 1; } 100% { transform: translate(-100vw, 100vh) rotate(45deg); opacity: 0; } }
+/* ESTRELLAS FUGACES REALISTAS */
+.shooting-heart {
+    position: fixed;
+    top: -50px;
+    color: #ff4da6;
+    font-size: 20px;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+    animation: shootLinear 3s linear forwards;
+    filter: drop-shadow(0 0 10px #ff4da6);
+}
+
+.shooting-heart::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #ff4da6);
+    transform: translateY(-50%);
+    box-shadow: 0 0 8px #ff4da6;
+}
+
+@keyframes shootLinear {
+    0% { transform: translate(0, 0) rotate(45deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translate(-120vw, 120vh) rotate(45deg); opacity: 0; }
+}
 
 .stars{ position:fixed; width:100%; height:100%; background: radial-gradient(2px 2px at 20% 30%, white, transparent), radial-gradient(1px 1px at 70% 80%, white, transparent); background-size:300px 300px; animation:moveStars 80s linear infinite; z-index:0; }
 @keyframes moveStars{ from{background-position:0 0;} to{background-position:-1000px 1000px;} }
@@ -23,33 +50,38 @@ h1{ font-size:24px; text-shadow:0 0 20px #ff4da6; }
 .buttons{ margin-top:20px; position:relative; display: inline-block; }
 
 #yes, #no{ padding:12px 30px; font-size:18px; border:none; border-radius:30px; cursor:pointer; }
-#yes{ background:#ff2e88; color:white; box-shadow:0 0 20px #ff2e88; }
-#no{ position:absolute; left:50%; top:70px; transform: translateX(-50%); background:#222; color:white; }
+#yes{ background:#ff2e88; color:white; box-shadow:0 0 20px #ff2e88; position: relative; z-index: 10; }
+#no{ position:absolute; left:50%; top:70px; transform: translateX(-50%); background:#222; color:white; z-index: 10; }
 
 /* DISEÑO TICKET VIP */
 #ticketWrapper {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20000;
 }
 .ticket-card {
-    width: 300px; background: #fff; color: #333; border-radius: 15px; overflow: hidden; box-shadow: 0 0 40px rgba(255, 46, 136, 0.6); font-family: 'Courier New', Courier, monospace; border: 2px solid #ff2e88;
+    width: 310px; background: #fff; color: #333; border-radius: 15px; overflow: hidden; box-shadow: 0 0 40px rgba(255, 46, 136, 0.6); font-family: 'Courier New', Courier, monospace; border: 2px solid #ff2e88;
 }
 .ticket-header { background: #ff2e88; color: white; padding: 15px; font-weight: bold; font-size: 22px; letter-spacing: 2px; }
-.ticket-body { padding: 20px; border-bottom: 2px dashed #ff2e88; position: relative; background: #fffafc; }
-.ticket-body p { margin: 8px 0; font-size: 14px; text-align: left; border-left: 3px solid #ff2e88; padding-left: 10px; }
-.barcode { font-size: 10px; letter-spacing: 5px; margin-top: 15px; font-weight: bold; }
-.btn-download { margin-top: 15px; background: #ff2e88; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; }
+.ticket-body { padding: 20px; border-bottom: 3px dashed #ff2e88; position: relative; background: #fffafc; }
+/* Círculos laterales de ticket real */
+.ticket-body::before, .ticket-body::after {
+    content: ''; position: absolute; bottom: -15px; width: 30px; height: 30px; background: #000; border-radius: 50%;
+}
+.ticket-body::before { left: -17px; }
+.ticket-body::after { right: -17px; }
 
-#btnTicketOpen { display: none; position: fixed; bottom: 8vh; left: 50%; transform: translateX(-50%); background: gold; color: black; padding: 15px 25px; border-radius: 50px; font-weight: bold; z-index: 100; box-shadow: 0 0 20px gold; cursor:pointer; }
+.ticket-body p { margin: 8px 0; font-size: 14px; text-align: left; border-left: 3px solid #ff2e88; padding-left: 10px; color: #333; }
+.barcode { font-size: 10px; letter-spacing: 5px; margin-top: 20px; font-weight: bold; color: #000; }
+.btn-download { margin-top: 15px; background: #ff2e88; color: white; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 5px 15px rgba(255,46,136,0.3); }
+
+#btnTicketOpen { display: none; position: fixed; bottom: 8vh; left: 50%; transform: translateX(-50%); background: gold; color: black; padding: 15px 25px; border-radius: 50px; font-weight: bold; z-index: 100; box-shadow: 0 0 20px gold; cursor:pointer; border: none; }
 #countdown{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:35px; width: 90%; text-shadow:0 0 20px #ff4da6; font-weight: bold; }
-.photo-confetti { position: fixed; width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; object-fit: cover; z-index: 9999; animation: fall 4s linear forwards; }
-@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 </style>
 </head>
 
 <body>
 <div class="stars"></div>
 <div class="container" id="mainContainer">
-    <h1>Un Mensaje Especial ❤️<br>¿Quieres celebrar un día importante<br>conmigo? ❤️</h1>
+    <h1>Michelina ❤️<br>¿Quieres celebrar un día importante<br>conmigo? ❤️</h1>
     <div class="buttons">
         <button id="yes">Sí ❤️</button>
         <button id="no">No ❌</button>
@@ -61,11 +93,11 @@ h1{ font-size:24px; text-shadow:0 0 20px #ff4da6; }
     <div class="ticket-card" id="ticketToImage">
         <div class="ticket-header">ENTRADA VIP ❤️</div>
         <div class="ticket-body">
-            <p><strong>PARA:</strong> [Nombre]</p>
-            <p><strong>VÁLIDO POR:</strong> 1 Momento Especial</p>
-            <p><strong>LUGAR:</strong> Mi lugar favorito</p>
-            <p><strong>FECHA:</strong> [Fecha]</p>
-            <div class="barcode">|||| [Código] ||||</div>
+            <p><strong>PARA:</strong> Michelina</p>
+            <p><strong>VÁLIDO POR:</strong> 1 Momento Inolvidable y una Comida Rica</p>
+            <p><strong>LUGAR:</strong> Mi lugar favorito (A tu lado)</p>
+            <p><strong>FECHA:</strong> 14 de Febrero</p>
+            <div class="barcode">|||| 014022026 ||||</div>
         </div>
     </div>
     <button class="btn-download" onclick="downloadTicket()">⬇️ GUARDAR EN GALERÍA</button>
@@ -73,21 +105,21 @@ h1{ font-size:24px; text-shadow:0 0 20px #ff4da6; }
 
 <button id="btnTicketOpen" onclick="document.getElementById('ticketWrapper').style.display='block'">✨ VER MI ENTRADA VIP ✨</button>
 
+<!-- Sonidos -->
 <audio id="errorSound" src="https://www.myinstants.com"></audio>
 <audio id="successSound" src="https://www.myinstants.com"></audio>
 
 <script>
-// --- PON AQUÍ TUS ENLACES DE FOTOS ---
-const misFotos = [];
-
 function createShootingHeart() {
     const h = document.createElement("div");
     h.className = "shooting-heart"; h.innerText = "❤️";
-    h.style.left = Math.random() * 150 + 50 + "vw";
+    // Aparecen por la derecha para cruzar hacia la izquierda
+    h.style.left = Math.random() * 100 + 50 + "vw";
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 3000);
 }
-setInterval(createShootingHeart, 3000);
+// Creamos una estrella fugaz cada 4 segundos
+setInterval(createShootingHeart, 4000);
 
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
@@ -95,17 +127,20 @@ const errorSound = document.getElementById("errorSound");
 const successSound = document.getElementById("successSound");
 
 noBtn.addEventListener("click",()=>{
-    errorSound.currentTime = 0; errorSound.play().catch(()=>{});
+    errorSound.currentTime = 0;
+    errorSound.play().catch(()=>{});
     noBtn.style.position = "fixed";
-    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
     noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
 });
 
 yesBtn.onclick = () => {
     successSound.play().catch(()=>{});
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    
     document.body.innerHTML = `
         <div class='stars'></div>
-        <div style='position:fixed; top:5vh; width:100%; color:red; font-size:28px; font-weight:bold; z-index:10;'>❤️ FELIZ DÍA ESPECIAL ❤️</div>
+        <div style='position:fixed; top:5vh; width:100%; color:red; font-size:28px; font-weight:bold; z-index:10; text-shadow: 0 0 10px white;'>❤️ FELIZ SAN VALENTÍN ❤️</div>
         <div id='countdown'>Cargando...</div>
         <button id="btnTicketOpen" onclick="document.getElementById('ticketWrapper').style.display='block'">✨ VER MI ENTRADA VIP ✨</button>
     `;
@@ -117,13 +152,13 @@ function startCountdown(){
     const btnTicket = document.getElementById('btnTicketOpen');
     
     function update(){
-        let target = new Date();
-        target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
-        target.setHours(14,0,0,0);
-        let dist = target - new Date();
+        let now = new Date();
+        // Fecha objetivo: 14 de Febrero 2026
+        let target = new Date(2026, 1, 14, 0, 0, 0); 
+        let dist = target - now;
         
         if(dist <= 0) {
-            countdownContainer.innerHTML = "¡El momento es ahora! ❤️";
+            countdownContainer.innerHTML = "Aún no, tranquila ❤️";
             btnTicket.style.display = "block";
             return;
         }
@@ -133,12 +168,16 @@ function startCountdown(){
     setInterval(update, 1000); update();
 }
 
-// FUNCIÓN PARA DESCARGAR EL TICKET COMO IMAGEN
 function downloadTicket() {
     const ticket = document.getElementById('ticketToImage');
-    html2canvas(ticket).then(canvas => {
+    // Configuramos html2canvas para que use un fondo transparente y buena calidad
+    html2canvas(ticket, { 
+        backgroundColor: null,
+        scale: 3, 
+        logging: false 
+    }).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'entrada-vip.png';
+        link.download = 'entrada-vip-san-valentin.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     });
