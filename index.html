@@ -66,7 +66,6 @@ display: inline-block;
     transform: rotate(-20deg);
     z-index: 100;
     pointer-events: none;
-    white-space: nowrap;
     animation: mc-pulse 0.5s infinite alternate;
 }
 
@@ -75,16 +74,20 @@ display: inline-block;
     to { transform: rotate(-20deg) scale(1.1); }
 }
 
-#yes{
-position:relative;
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
+#yes, #no{
 padding:12px 30px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
+white-space: nowrap;
+}
+
+#yes{
+position:relative;
+background:#ff2e88;
+color:white;
+box-shadow:0 0 20px #ff2e88;
 }
 
 #no{
@@ -94,12 +97,6 @@ top:70px;
 transform: translateX(-50%);
 background:#222;
 color:white;
-padding:12px 30px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-white-space: nowrap;
 }
 
 .messageBox{
@@ -115,14 +112,48 @@ box-shadow:0 0 30px #ff2e88;
 cursor: pointer;
 }
 
-.closeBtn{
-position:absolute;
-top:5px;
-right:10px;
-background:none;
-border:none;
-color:#ff2e88;
-font-size:16px;
+/* PANTALLA FINAL */
+.finalTitle {
+    position: fixed;
+    top: 5vh;
+    left: 0;
+    width: 100%;
+    color: #ff0000;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255,0,0,0.7);
+    z-index: 20;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.bgHeart {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 250px;
+    opacity: 0.15;
+    z-index: 1;
+    animation: pulseBg 1.5s infinite;
+}
+
+@keyframes pulseBg {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+#countdown{
+position:fixed;
+top:55%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:26px;
+width: 90%;
+text-shadow:0 0 20px #ff4da6;
+z-index: 10;
+font-weight: bold;
 }
 
 .confetti {
@@ -134,17 +165,6 @@ font-size:16px;
 
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-
-#countdown{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:24px;
-width: 90%;
-text-shadow:0 0 20px #ff4da6;
-z-index: 10;
 }
 </style>
 </head>
@@ -161,7 +181,6 @@ z-index: 10;
 </div>
 </div>
 
-<!-- AUDIOS -->
 <audio id="errorSound" src="https://www.myinstants.com"></audio>
 <audio id="successSound" src="https://www.myinstants.com"></audio>
 
@@ -179,30 +198,25 @@ const errorSound = document.getElementById("errorSound");
 const successSound = document.getElementById("successSound");
 
 noBtn.addEventListener("click",()=>{
-    // SONIDO Y VIBRACIÓN DE ERROR
     errorSound.currentTime = 0;
-    errorSound.play();
+    errorSound.play().catch(()=>{});
     if (navigator.vibrate) navigator.vibrate(100);
 
     if(count < warnings.length){
         let box=document.createElement("div");
         box.className="messageBox";
-        box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
-
+        box.innerHTML=warnings[count];
         let maxX = window.innerWidth - 240;
         let maxY = window.innerHeight - 150;
         box.style.left = Math.max(10, Math.random() * maxX) + "px";
         box.style.top = Math.max(10, Math.random() * maxY) + "px";
-
         document.body.appendChild(box);
         activeMessages++;
-
         box.onclick=()=>{
             box.remove();
             activeMessages--;
             if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
         };
-
         splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
         noBtn.style.position = "fixed";
         noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
@@ -214,20 +228,18 @@ noBtn.addEventListener("click",()=>{
 
 function createConfetti() {
     const hearts = ["❤️", "💖", "💝", "💕", "💗"];
-    const colors = ["#ff2e88", "#ff4da6", "#ffffff", "#ff0000"];
-    for(let i = 0; i < 60; i++) {
+    for(let i = 0; i < 70; i++) {
         setTimeout(() => {
             const c = document.createElement("div");
             c.className = "confetti";
             c.innerText = hearts[Math.floor(Math.random() * hearts.length)];
             c.style.left = Math.random() * 100 + "vw";
             c.style.top = "-5vh";
-            c.style.color = colors[Math.floor(Math.random() * colors.length)];
             c.style.fontSize = Math.random() * 20 + 15 + "px";
             c.style.animationDuration = Math.random() * 3 + 2 + "s";
             document.body.appendChild(c);
             setTimeout(() => c.remove(), 5000);
-        }, i * 80);
+        }, i * 70);
     }
 }
 
@@ -243,18 +255,21 @@ function showBigYes(){
 yesBtn.onclick = showLoveMessage;
 
 function showLoveMessage(){
-    // SONIDO Y VIBRACIÓN DE ÉXITO
-    successSound.play();
-    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    successSound.play().catch(()=>{});
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
-    document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
+    document.body.innerHTML = `
+        <div class='stars'></div>
+        <div class='bgHeart'>❤️</div>
+        <div class='finalTitle'>❤️ FELIZ SAN VALENTIN AMOR ❤️</div>
+        <div id='countdown'>Sabía que ibas a decir que sí ❤️</div>
+    `;
     createConfetti();
-    setTimeout(startCountdown,3000);
+    setTimeout(startCountdown, 3000);
 }
 
 function startCountdown(){
-    document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
-    let countdown=document.getElementById("countdown");
+    const countdownContainer = document.getElementById('countdown');
     let now = new Date();
     let target = new Date();
     let day = now.getDay();
@@ -266,12 +281,12 @@ function startCountdown(){
     function update(){
         let nowTime=new Date().getTime();
         let distance=target - nowTime;
-        if(distance<=0){ countdown.innerHTML="Espera impaciente ❤️"; return; }
+        if(distance<=0){ countdownContainer.innerHTML="¡Es hoy! ❤️"; return; }
         let d=Math.floor(distance/(1000*60*60*24));
         let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
         let m=Math.floor((distance%(1000*60*60))/(1000*60));
         let s=Math.floor((distance%(1000*60))/1000);
-        countdown.innerHTML=d+"d "+h+"h "+m+"m "+s+"s ❤️";
+        countdownContainer.innerHTML = `Faltan:<br>${d}d ${h}h ${m}m ${s}s<br>para verte ❤️`;
     }
     setInterval(update,1000);
     update();
