@@ -3,315 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Para Michelina ❤️</title>
+<title>Un Mensaje Especial</title>
+<!-- Librería para convertir el ticket en imagen descargable -->
+<script src="https://cdnjs.cloudflare.com"></script>
 
 <style>
-body{
-margin:0;
-overflow:hidden;
-font-family:'Segoe UI', sans-serif;
-color:white;
-text-align:center;
-background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
-touch-action: manipulation;
-}
+body{ margin:0; overflow:hidden; font-family:'Segoe UI', sans-serif; color:white; text-align:center; background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%); touch-action: manipulation; }
 
-.stars{
-position:fixed;
-width:100%;
-height:100%;
-background:
-radial-gradient(2px 2px at 20% 30%, white, transparent),
-radial-gradient(1px 1px at 70% 80%, white, transparent),
-radial-gradient(2px 2px at 40% 60%, white, transparent),
-radial-gradient(1px 1px at 90% 10%, white, transparent);
-background-repeat:repeat;
-background-size:300px 300px;
-animation:moveStars 80s linear infinite;
-z-index:0;
-}
+/* ESTRELLAS FUGACES */
+.shooting-heart { position: fixed; top: -50px; color: #ff4da6; font-size: 20px; z-index: 1; animation: shootLinear 3s linear forwards; filter: drop-shadow(0 0 10px #ff4da6); }
+.shooting-heart::after { content: ''; position: absolute; top: 50%; right: 100%; width: 80px; height: 2px; background: linear-gradient(to right, transparent, #ff4da6); transform: translateY(-50%); }
+@keyframes shootLinear { 0% { transform: translate(0, 0) rotate(45deg); opacity: 1; } 100% { transform: translate(-100vw, 100vh) rotate(45deg); opacity: 0; } }
 
-@keyframes moveStars{
-from{background-position:0 0;}
-to{background-position:-1000px 1000px;}
-}
+.stars{ position:fixed; width:100%; height:100%; background: radial-gradient(2px 2px at 20% 30%, white, transparent), radial-gradient(1px 1px at 70% 80%, white, transparent); background-size:300px 300px; animation:moveStars 80s linear infinite; z-index:0; }
+@keyframes moveStars{ from{background-position:0 0;} to{background-position:-1000px 1000px;} }
 
-.container{
-position:relative;
-z-index:5;
-top:15vh;
-padding:10px;
-}
+.container{ position:relative; z-index:5; top:15vh; padding:10px; }
+h1{ font-size:24px; text-shadow:0 0 20px #ff4da6; }
+.buttons{ margin-top:20px; position:relative; display: inline-block; }
 
-h1{
-font-size:24px;
-line-height:1.3;
-text-shadow:0 0 20px #ff4da6;
-}
+#yes, #no{ padding:12px 30px; font-size:18px; border:none; border-radius:30px; cursor:pointer; }
+#yes{ background:#ff2e88; color:white; box-shadow:0 0 20px #ff2e88; }
+#no{ position:absolute; left:50%; top:70px; transform: translateX(-50%); background:#222; color:white; }
 
-.buttons{
-margin-top:20px;
-position:relative;
-display: inline-block;
+/* DISEÑO TICKET VIP */
+#ticketWrapper {
+    display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20000;
 }
+.ticket-card {
+    width: 300px; background: #fff; color: #333; border-radius: 15px; overflow: hidden; box-shadow: 0 0 40px rgba(255, 46, 136, 0.6); font-family: 'Courier New', Courier, monospace; border: 2px solid #ff2e88;
+}
+.ticket-header { background: #ff2e88; color: white; padding: 15px; font-weight: bold; font-size: 22px; letter-spacing: 2px; }
+.ticket-body { padding: 20px; border-bottom: 2px dashed #ff2e88; position: relative; background: #fffafc; }
+.ticket-body p { margin: 8px 0; font-size: 14px; text-align: left; border-left: 3px solid #ff2e88; padding-left: 10px; }
+.barcode { font-size: 10px; letter-spacing: 5px; margin-top: 15px; font-weight: bold; }
+.btn-download { margin-top: 15px; background: #ff2e88; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%; }
 
-#minecraftSplash {
-    position: absolute;
-    top: -25px;
-    right: -30px;
-    color: #ffff00;
-    font-weight: bold;
-    font-size: 18px;
-    text-shadow: 2px 2px #3f3f00;
-    transform: rotate(-20deg);
-    z-index: 100;
-    pointer-events: none;
-    animation: mc-pulse 0.5s infinite alternate;
-}
-
-@keyframes mc-pulse {
-    from { transform: rotate(-20deg) scale(1); }
-    to { transform: rotate(-20deg) scale(1.1); }
-}
-
-#yes, #no{
-padding:12px 30px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-white-space: nowrap;
-}
-
-#yes{
-position:relative;
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
-}
-
-#no{
-position:absolute;
-left:50%;
-top:70px;
-transform: translateX(-50%);
-background:#222;
-color:white;
-}
-
-.messageBox{
-position:fixed;
-background:#111;
-padding:25px;
-border-radius:20px;
-border:3px solid #ff2e88;
-z-index:9999;
-font-size:18px;
-width: 200px;
-box-shadow:0 0 30px #ff2e88;
-cursor: pointer;
-}
-
-/* PANTALLA FINAL */
-.finalTitle {
-    position: fixed;
-    top: 5vh;
-    left: 0;
-    width: 100%;
-    color: #ff0000;
-    font-size: 28px;
-    font-weight: bold;
-    text-shadow: 0 0 15px rgba(255,0,0,0.7);
-    z-index: 20;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-.bgHeart {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 250px;
-    opacity: 0.15;
-    z-index: 1;
-    animation: pulseBg 1.5s infinite;
-    transition: all 0.5s ease;
-}
-
-@keyframes pulseBg {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.2); }
-    100% { transform: translate(-50%, -50%) scale(1); }
-}
-
-.explode {
-    animation: explodeAnim 0.5s forwards !important;
-}
-
-@keyframes explodeAnim {
-    0% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.15; }
-    100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
-}
-
-#countdown{
-position:fixed;
-top:55%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:32px;
-width: 90%;
-text-shadow:0 0 20px #ff4da6;
-z-index: 10;
-font-weight: bold;
-}
-
-.confetti {
-    position: fixed;
-    z-index: 9999;
-    pointer-events: none;
-    animation: fall linear forwards;
-}
-
-@keyframes fall {
-    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
+#btnTicketOpen { display: none; position: fixed; bottom: 8vh; left: 50%; transform: translateX(-50%); background: gold; color: black; padding: 15px 25px; border-radius: 50px; font-weight: bold; z-index: 100; box-shadow: 0 0 20px gold; cursor:pointer; }
+#countdown{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:35px; width: 90%; text-shadow:0 0 20px #ff4da6; font-weight: bold; }
+.photo-confetti { position: fixed; width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; object-fit: cover; z-index: 9999; animation: fall 4s linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 </style>
 </head>
 
 <body>
 <div class="stars"></div>
+<div class="container" id="mainContainer">
+    <h1>Un Mensaje Especial ❤️<br>¿Quieres celebrar un día importante<br>conmigo? ❤️</h1>
+    <div class="buttons">
+        <button id="yes">Sí ❤️</button>
+        <button id="no">No ❌</button>
+    </div>
+</div>
 
-<div class="container">
-<h1>Michelina ❤️<br>¿Quieres celebrar San Valentín<br>conmigo? ❤️</h1>
-<div class="buttons">
-<button id="yes">Sí ❤️</button>
-<button id="no">No ❌</button>
-<div id="minecraftSplash">¿No lo ves?</div>
+<!-- CONTENEDOR DEL TICKET -->
+<div id="ticketWrapper">
+    <div class="ticket-card" id="ticketToImage">
+        <div class="ticket-header">ENTRADA VIP ❤️</div>
+        <div class="ticket-body">
+            <p><strong>PARA:</strong> [Nombre]</p>
+            <p><strong>VÁLIDO POR:</strong> 1 Momento Especial</p>
+            <p><strong>LUGAR:</strong> Mi lugar favorito</p>
+            <p><strong>FECHA:</strong> [Fecha]</p>
+            <div class="barcode">|||| [Código] ||||</div>
+        </div>
+    </div>
+    <button class="btn-download" onclick="downloadTicket()">⬇️ GUARDAR EN GALERÍA</button>
 </div>
-</div>
+
+<button id="btnTicketOpen" onclick="document.getElementById('ticketWrapper').style.display='block'">✨ VER MI ENTRADA VIP ✨</button>
 
 <audio id="errorSound" src="https://www.myinstants.com"></audio>
 <audio id="successSound" src="https://www.myinstants.com"></audio>
 
 <script>
-let warnings=["⚠️ ¿Segura?", "ja ja que tontaaaa 😜", "imposibleeee", "one two tree 🌳", "hasta luego lucas 😏", "soy tu grano favorito", "😗 silbando...", ".........", "que no pesadaaa 😂", "vengaaaa casi", "tu puedes 💪", "amor detectado 💘", "no puedes escapar 😈", "última advertencia romántica", "❌ Error 404"];
-let splashes = ["¿Tan difícil es?", "¿No lo ves?", "¡Dale al SÍ!", "Piénsalo bien...", "¡Esa no es!", "¡Error fatal!", "¿En serio?", "Sigue buscando"];
+// --- PON AQUÍ TUS ENLACES DE FOTOS ---
+const misFotos = [];
 
-let count=0;
-let activeMessages=0;
+function createShootingHeart() {
+    const h = document.createElement("div");
+    h.className = "shooting-heart"; h.innerText = "❤️";
+    h.style.left = Math.random() * 150 + 50 + "vw";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 3000);
+}
+setInterval(createShootingHeart, 3000);
 
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
-const splashEl=document.getElementById("minecraftSplash");
 const errorSound = document.getElementById("errorSound");
 const successSound = document.getElementById("successSound");
 
 noBtn.addEventListener("click",()=>{
-    errorSound.currentTime = 0;
-    errorSound.play().catch(()=>{});
-    if (navigator.vibrate) navigator.vibrate(100);
-
-    if(count < warnings.length){
-        let box=document.createElement("div");
-        box.className="messageBox";
-        box.innerHTML=warnings[count];
-        let maxX = window.innerWidth - 240;
-        let maxY = window.innerHeight - 150;
-        box.style.left = Math.max(10, Math.random() * maxX) + "px";
-        box.style.top = Math.max(10, Math.random() * maxY) + "px";
-        document.body.appendChild(box);
-        activeMessages++;
-        box.onclick=()=>{
-            box.remove();
-            activeMessages--;
-            if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
-        };
-        splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
-        noBtn.style.position = "fixed";
-        noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
-        noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
-        noBtn.style.transform="scale("+(1 - count*0.05)+")";
-        count++;
-    }
+    errorSound.currentTime = 0; errorSound.play().catch(()=>{});
+    noBtn.style.position = "fixed";
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
 });
 
-function createConfetti(amount = 70) {
-    const hearts = ["❤️", "💖", "💝", "💕", "💗"];
-    for(let i = 0; i < amount; i++) {
-        setTimeout(() => {
-            const c = document.createElement("div");
-            c.className = "confetti";
-            c.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-            c.style.left = Math.random() * 100 + "vw";
-            c.style.top = "-5vh";
-            c.style.fontSize = Math.random() * 20 + 20 + "px";
-            c.style.animationDuration = Math.random() * 3 + 2 + "s";
-            document.body.appendChild(c);
-            setTimeout(() => c.remove(), 5000);
-        }, i * 50);
-    }
-}
-
-function showBigYes(){
-    document.body.innerHTML="<div class='stars'></div>";
-    let big=document.createElement("div");
-    big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:heartbeat 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;color:white;";
-    big.innerText="SÍ ❤️";
-    document.body.appendChild(big);
-    big.onclick = showLoveMessage;
-}
-
-yesBtn.onclick = showLoveMessage;
-
-function showLoveMessage(){
+yesBtn.onclick = () => {
     successSound.play().catch(()=>{});
-    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-
     document.body.innerHTML = `
         <div class='stars'></div>
-        <div class='bgHeart' id='mainHeart'>❤️</div>
-        <div class='finalTitle'>❤️ FELIZ SAN VALENTIN AMOR ❤️</div>
-        <div id='countdown'>Cargando sorpresa...</div>
+        <div style='position:fixed; top:5vh; width:100%; color:red; font-size:28px; font-weight:bold; z-index:10;'>❤️ FELIZ DÍA ESPECIAL ❤️</div>
+        <div id='countdown'>Cargando...</div>
+        <button id="btnTicketOpen" onclick="document.getElementById('ticketWrapper').style.display='block'">✨ VER MI ENTRADA VIP ✨</button>
     `;
-    createConfetti(40);
-    setTimeout(startCountdown, 2000);
-}
+    startCountdown();
+};
 
 function startCountdown(){
     const countdownContainer = document.getElementById('countdown');
-    const mainHeart = document.getElementById('mainHeart');
+    const btnTicket = document.getElementById('btnTicketOpen');
     
-    let now = new Date();
-    let target = new Date();
-    let day = now.getDay();
-    let daysUntilFriday = (5 - day + 7) % 7;
-    
-    if(daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
-    target.setDate(now.getDate() + daysUntilFriday);
-    target.setHours(14,0,0,0);
-
     function update(){
-        let nowTime=new Date().getTime();
-        let distance=target - nowTime;
+        let target = new Date();
+        target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
+        target.setHours(14,0,0,0);
+        let dist = target - new Date();
         
-        if(distance<=0){ 
-            countdownContainer.innerHTML="Aun no, tranquila ❤️"; 
-            mainHeart.classList.add('explode');
-            createConfetti(150);
-            if (navigator.vibrate) navigator.vibrate([500, 100, 500]);
-            return; 
+        if(dist <= 0) {
+            countdownContainer.innerHTML = "¡El momento es ahora! ❤️";
+            btnTicket.style.display = "block";
+            return;
         }
-        
-        let d=Math.floor(distance/(1000*60*60*24));
-        let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-        let m=Math.floor((distance%(1000*60*60))/(1000*60));
-        let s=Math.floor((distance%(1000*60))/1000);
-        
+        let d=Math.floor(dist/(1000*60*60*24)), h=Math.floor((dist%(1000*60*60*24))/(1000*60*60)), m=Math.floor((dist%(1000*60*60))/(1000*60)), s=Math.floor((dist%(1000*60))/1000);
         countdownContainer.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
     }
-    setInterval(update, 1000);
-    update();
+    setInterval(update, 1000); update();
+}
+
+// FUNCIÓN PARA DESCARGAR EL TICKET COMO IMAGEN
+function downloadTicket() {
+    const ticket = document.getElementById('ticketToImage');
+    html2canvas(ticket).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'entrada-vip.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
 }
 </script>
 </body>
