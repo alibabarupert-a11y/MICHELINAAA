@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Para Michelina ❤</title>
+<title>Para Michelina </title> ❤
 <style>
 body{
 margin:0;
@@ -12,7 +12,6 @@ font-family:'Segoe UI', sans-serif;
 color:white;
 text-align:center;
 background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
-touch-action: manipulation;
 }
 /* ESTRELLAS */
 .stars{
@@ -36,25 +35,24 @@ to{background-position:-1000px 1000px;}
 .container{
 position:relative;
 z-index:5;
-top:15vh; /* Ajustado para mejor visibilidad móvil */
-padding:20px;
+top:15vh; /* Ajustado para que el texto no se corte en móviles */
+padding:10px;
 }
 h1{
-font-size:26px; /* Tamaño optimizado para móvil */
+font-size:24px; /* Tamaño optimizado para que quepa bien en una pantalla móvil */
 line-height:1.3;
 text-shadow:0 0 20px #ff4da6;
-padding: 0 10px;
 }
 .buttons{
-margin-top:50px;
+margin-top:40px;
 position:relative;
 display: inline-block;
 }
 /* EFECTO MINECRAFT SPLASH */
 #minecraftSplash {
  position: absolute;
- top: -40px;
- right: -20px;
+ top: -30px;
+ right: -30px;
  color: #ffff00;
  font-weight: bold;
  font-size: 18px;
@@ -63,76 +61,73 @@ display: inline-block;
  z-index: 100;
  pointer-events: none;
  animation: mc-pulse 0.5s infinite alternate;
- font-family: 'Courier New', Courier, monospace; /* Fuente estilo juego */
 }
 @keyframes mc-pulse {
  from { transform: rotate(-20deg) scale(1); }
  to { transform: rotate(-20deg) scale(1.1); }
+}
+#yes, #no{
+padding:12px 30px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+white-space: nowrap;
 }
 #yes{
 position:relative;
 background:#ff2e88;
 color:white;
 box-shadow:0 0 20px #ff2e88;
-padding:15px 35px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
 }
 #no{
 position:absolute;
 left:50%;
-top:80px;
+top:70px;
 transform: translateX(-50%);
 background:#222;
 color:white;
-padding:15px 35px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
 }
-/* MENSAJES */
 .messageBox{
 position:fixed;
 background:#111;
-padding:30px;
-border-radius:25px;
+padding:25px;
+border-radius:20px;
 border:3px solid #ff2e88;
 z-index:9999;
-font-size:20px;
-max-width:250px;
+font-size:18px;
+width: 200px;
 box-shadow:0 0 30px #ff2e88;
+cursor: pointer;
 }
-.closeBtn{
-position:absolute;
-top:10px;
-right:15px;
-background:none;
-border:none;
-color:white;
-font-size:20px;
-cursor:pointer;
+/* PANTALLA FINAL */
+.finalTitle {
+ position: fixed;
+ top: 5vh;
+ left: 0;
+ width: 100%;
+ color: #ff0000;
+ font-size: 28px;
+ font-weight: bold;
+ text-shadow: 0 0 15px rgba(255,0,0,0.7);
+ z-index: 20;
 }
-/* CORAZONES */
-.shootingHeart{
+#countdown{
 position:fixed;
-font-size:20px;
-z-index:2;
-animation:shoot 4s linear forwards;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:32px;
+width: 90%;
 text-shadow:0 0 20px #ff4da6;
-}
-@keyframes shoot{
-0%{transform:translate(0,0); opacity:1;}
-100%{transform:translate(-800px,800px); opacity:0;}
+z-index: 10;
 }
 </style>
 </head>
 <body>
 <div class="stars"></div>
 <div class="container">
-<h1>Michelina <br> ❤ <br> ¿Quieres celebrar San Valentín con tu negro? ❤ </h1>
+<h1>Michelina <br> ❤ <br> ¿Quieres celebrar San Valentín<br>con tu negro? ❤ </h1>
 <div class="buttons">
 <button id="yes">Sí </button> ❤
 <div id="minecraftSplash">¿No lo ves o qué?</div>
@@ -141,55 +136,77 @@ text-shadow:0 0 20px #ff4da6;
 </div>
 
 <script>
-/* CORAZONES */
-function createHeart(){
-let heart=document.createElement("div");
-heart.className="shootingHeart";
-heart.innerHTML="💖"; 
-heart.style.left=Math.random()*window.innerWidth+"px";
-heart.style.top=Math.random()*window.innerHeight/2+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),4000);
-}
-setInterval(createHeart,800);
-
-/* FRASES Y LÓGICA */
 let warnings=[" ¿Segura?", "ja ja que tontaaaa ", "imposibleeee", "one two tree ", "hasta luego lucas ", "soy tu grano favorito", " silbando...", ".........", "que no pesadaaa ", "vengaaaa casi", "tu puedes ", "amor detectado ", "no puedes escapar ", "última advertencia romántica", " Error 404"];
+let splashes = ["¿No lo ves?", "¡Dale al SÍ!", "¿Tan difícil es?", "¡Error fatal!", "Piénsalo bien...", "¿En serio?"];
 let count=0;
 let activeMessages=0;
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
+const splashEl = document.getElementById("minecraftSplash");
 
 noBtn.addEventListener("click",()=>{
 if(count < warnings.length){
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
-box.style.top=Math.random()*60+"%";
-box.style.left=Math.random()*60+"%";
+box.innerHTML=warnings[count];
+box.style.top=Math.random()*70+"%";
+box.style.left=Math.random()*70+"%";
 document.body.appendChild(box);
 activeMessages++;
-box.querySelector(".closeBtn").onclick=()=>{
+box.onclick=()=>{
 box.remove();
 activeMessages--;
 if(warnings[count-1] === " Error 404" && activeMessages === 0){
 showBigYes();
 }
 };
-noBtn.style.top=Math.random()*70+"%";
-noBtn.style.left=Math.random()*70+"%";
+// Cambia el texto del splash al estilo Minecraft
+splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+noBtn.style.top=Math.random()*80+"%";
+noBtn.style.left=Math.random()*80+"%";
 noBtn.style.transform="scale("+(1 - count*0.05)+")";
 count++;
 }
 });
 
 function showBigYes(){
-/* Aquí iría la lógica del SI gigante del PDF original */
+document.body.innerHTML="<div class='stars'></div>";
+let big=document.createElement("div");
+big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:pulse 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;";
+big.innerText="SÍ ❤";
+document.body.appendChild(big);
+big.onclick = showLoveMessage;
 }
 
-yesBtn.addEventListener("click", () => {
-    alert("¡Sabía que dirías que sí!");
-});
+yesBtn.onclick = showLoveMessage;
+
+function showLoveMessage(){
+document.body.innerHTML = "<div class='stars'></div><div class='finalTitle'>FELIZ SAN VALENTÍN AMOR ❤</div><div id='countdown'>Cargando sorpresa...</div>";
+startCountdown();
+}
+
+function startCountdown(){
+let countdown = document.getElementById("countdown");
+let target = new Date();
+let day = target.getDay();
+let daysUntilFriday = (5 - day + 7) % 7;
+if(daysUntilFriday === 0 && target.getHours() >= 14) daysUntilFriday = 7;
+target.setDate(target.getDate() + daysUntilFriday);
+target.setHours(14,0,0,0);
+
+function update(){
+let nowTime=new Date().getTime();
+let distance=target - nowTime;
+if(distance<=0){ countdown.innerHTML="¡Es hoy! ❤"; return; }
+let d=Math.floor(distance/(1000*60*60*24));
+let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let m=Math.floor((distance%(1000*60*60))/(1000*60));
+let s=Math.floor((distance%(1000*60))/1000);
+countdown.innerHTML = d+"d "+h+"h "+m+"m "+s+"s";
+}
+setInterval(update,1000);
+update();
+}
 </script>
 </body>
 </html>
