@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Michelina ❤️</title>
 
 <style>
-
 body{
 margin:0;
 overflow:hidden;
@@ -15,9 +13,9 @@ font-family:'Segoe UI', sans-serif;
 color:white;
 text-align:center;
 background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
+touch-action: manipulation;
 }
 
-/* ESTRELLAS */
 .stars{
 position:fixed;
 width:100%;
@@ -41,20 +39,20 @@ to{background-position:-1000px 1000px;}
 .container{
 position:relative;
 z-index:5;
-top:28vh;
-padding:20px;
+top:15vh; /* Bajado un poco para móviles cortos */
+padding:10px;
 }
 
 h1{
-font-size:30px;
-line-height:1.5;
+font-size:24px; /* Tamaño más pequeño para que no ocupe todo el móvil */
+line-height:1.3;
 text-shadow:0 0 20px #ff4da6;
 }
 
 .buttons{
-margin-top:30px;
+margin-top:20px;
 position:relative;
-height:80px;
+display: inline-block;
 }
 
 #yes{
@@ -62,7 +60,7 @@ position:relative;
 background:#ff2e88;
 color:white;
 box-shadow:0 0 20px #ff2e88;
-padding:15px 35px;
+padding:12px 30px;
 font-size:18px;
 border:none;
 border-radius:30px;
@@ -72,48 +70,41 @@ cursor:pointer;
 #no{
 position:absolute;
 left:50%;
-top:70%;
+top:70px; /* Posición inicial fija debajo del SÍ */
 transform: translateX(-50%);
 background:#222;
 color:white;
-padding:15px 35px;
+padding:12px 30px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
+white-space: nowrap;
 }
 
-/* MENSAJES */
 .messageBox{
 position:fixed;
 background:#111;
-padding:40px;
-border-radius:25px;
+padding:20px;
+border-radius:20px;
 border:3px solid #ff2e88;
 z-index:9999;
-font-size:22px;
-max-width:300px;
+font-size:18px;
+width: 200px; /* Ancho fijo para que nunca se salga */
 box-shadow:0 0 30px #ff2e88;
-animation:float 3s ease-in-out infinite alternate;
-}
-
-@keyframes float{
-from{transform:translateY(0px);}
-to{transform:translateY(20px);}
+cursor: pointer;
 }
 
 .closeBtn{
 position:absolute;
-top:10px;
-right:15px;
+top:5px;
+right:10px;
 background:none;
 border:none;
-color:white;
-font-size:20px;
-cursor:pointer;
+color:#ff2e88;
+font-size:16px;
 }
 
-/* CORAZONES */
 .shootingHeart{
 position:fixed;
 font-size:20px;
@@ -127,15 +118,14 @@ text-shadow:0 0 20px #ff4da6;
 100%{transform:translate(-800px,800px); opacity:0;}
 }
 
-/* SI GIGANTE */
 .bigYes{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:65px;
+font-size:50px;
 background:#ff2e88;
-padding:50px 90px;
+padding:40px 60px;
 border-radius:50px;
 z-index:10000;
 animation:heartbeat 1s infinite;
@@ -153,24 +143,18 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:35px;
+font-size:24px;
+width: 90%;
 text-shadow:0 0 20px #ff2e88;
 }
-
 </style>
 </head>
 
 <body>
-
 <div class="stars"></div>
 
 <div class="container">
-<h1>
-Michelina ❤️<br>
-¿Quieres celebrar San Valentín<br>
-con tu negro? ❤️
-</h1>
-
+<h1>Michelina ❤️<br>¿Quieres celebrar San Valentín<br>con tu negro? ❤️</h1>
 <div class="buttons">
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
@@ -178,8 +162,6 @@ con tu negro? ❤️
 </div>
 
 <script>
-
-/* CORAZONES */
 function createHeart(){
 let heart=document.createElement("div");
 heart.className="shootingHeart";
@@ -191,25 +173,7 @@ setTimeout(()=>heart.remove(),4000);
 }
 setInterval(createHeart,800);
 
-/* FRASES */
-let warnings=[
-"⚠️ ¿Segura?",
-"ja ja que tontaaaa 😜",
-"imposibleeee",
-"one two tree 🌳",
-"hasta luego lucas 😏",
-"soy tu grano favorito",
-"😗 silbando...",
-".........",
-"que no pesadaaa 😂",
-"vengaaaa casi",
-"tu puedes 💪",
-"amor detectado 💘",
-"no puedes escapar 😈",
-"última advertencia romántica",
-"❌ Error 404"
-];
-
+let warnings=["⚠️ ¿Segura?", "ja ja que tontaaaa 😜", "imposibleeee", "one two tree 🌳", "hasta luego lucas 😏", "soy tu grano favorito", "😗 silbando...", ".........", "que no pesadaaa 😂", "vengaaaa casi", "tu puedes 💪", "amor detectado 💘", "no puedes escapar 😈", "última advertencia romántica", "❌ Error 404"];
 let count=0;
 let activeMessages=0;
 
@@ -217,37 +181,34 @@ const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 
 noBtn.addEventListener("click",()=>{
-
 if(count < warnings.length){
-
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
+box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}<br><small style="font-size:10px">(Toca para cerrar)</small>`;
 
-box.style.top=Math.random()*70+"%";
-box.style.left=Math.random()*70+"%";
-box.style.transform="scale("+(1 + Math.random()*0.5)+") rotate("+(Math.random()*20-10)+"deg)";
+// CÁLCULO PARA QUE NO SE SALGA DEL MÓVIL
+let maxX = window.innerWidth - 240;
+let maxY = window.innerHeight - 150;
+box.style.left = Math.max(10, Math.random() * maxX) + "px";
+box.style.top = Math.max(10, Math.random() * maxY) + "px";
 
 document.body.appendChild(box);
 activeMessages++;
 
-box.querySelector(".closeBtn").onclick=()=>{
+// CERRAR AL TOCAR EL CUADRO
+box.onclick=()=>{
 box.remove();
 activeMessages--;
-
-if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){
-showBigYes();
-}
+if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
 };
 
-noBtn.style.top=Math.random()*80+"%";
-noBtn.style.left=Math.random()*80+"%";
+// MOVER BOTÓN NO DENTRO DE LA PANTALLA
+noBtn.style.position = "fixed";
+noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
+noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
 noBtn.style.transform="scale("+(1 - count*0.05)+")";
-
 count++;
-
 }
-
 });
 
 function showBigYes(){
@@ -256,10 +217,10 @@ let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
-big.addEventListener("click",showLoveMessage);
+big.onclick = showLoveMessage;
 }
 
-yesBtn.addEventListener("click",showLoveMessage);
+yesBtn.onclick = showLoveMessage;
 
 function showLoveMessage(){
 document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
@@ -269,42 +230,27 @@ setTimeout(startCountdown,3000);
 function startCountdown(){
 document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
 let countdown=document.getElementById("countdown");
-
 let now = new Date();
 let target = new Date();
-
 let day = now.getDay();
 let daysUntilFriday = (5 - day + 7) % 7;
-
-if(daysUntilFriday === 0 && now.getHours() >= 14){
-    daysUntilFriday = 7;
-}
-
+if(daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
 target.setDate(now.getDate() + daysUntilFriday);
 target.setHours(14,0,0,0);
 
 function update(){
 let nowTime=new Date().getTime();
 let distance=target - nowTime;
-
-if(distance<=0){
-countdown.innerHTML="Espera impaciente ❤️";
-return;
-}
-
+if(distance<=0){ countdown.innerHTML="Espera impaciente ❤️"; return; }
 let d=Math.floor(distance/(1000*60*60*24));
 let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
 let m=Math.floor((distance%(1000*60*60))/(1000*60));
 let s=Math.floor((distance%(1000*60))/1000);
-
 countdown.innerHTML=d+"d "+h+"h "+m+"m "+s+"s ❤️";
 }
-
 setInterval(update,1000);
 update();
 }
-
 </script>
-
 </body>
 </html>
