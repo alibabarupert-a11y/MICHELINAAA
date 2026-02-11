@@ -6,7 +6,6 @@
 <title>Para Michelina ❤️</title>
 
 <style>
-
 body{
 margin:0;
 overflow:hidden;
@@ -16,7 +15,6 @@ text-align:center;
 background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
 }
 
-/* ESTRELLAS */
 .stars{
 position:fixed;
 width:100%;
@@ -53,19 +51,22 @@ text-shadow:0 0 20px #ff4da6;
 .buttons{
 margin-top:30px;
 position:relative;
-height:80px;
+height:100px;
 }
 
-#yes{
-position:relative;
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
+button{
 padding:15px 35px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
+transition:0.3s;
+}
+
+#yes{
+background:#ff2e88;
+color:white;
+box-shadow:0 0 20px #ff2e88;
 }
 
 #no{
@@ -73,14 +74,8 @@ position:absolute;
 left:60%;
 background:#222;
 color:white;
-padding:15px 35px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
 }
 
-/* MENSAJES */
 .messageBox{
 position:fixed;
 background:#111;
@@ -110,7 +105,6 @@ font-size:20px;
 cursor:pointer;
 }
 
-/* CORAZONES */
 .shootingHeart{
 position:fixed;
 font-size:20px;
@@ -124,7 +118,6 @@ text-shadow:0 0 20px #ff4da6;
 100%{transform:translate(-800px,800px); opacity:0;}
 }
 
-/* SI GIGANTE */
 .bigYes{
 position:fixed;
 top:50%;
@@ -154,6 +147,9 @@ font-size:35px;
 text-shadow:0 0 20px #ff2e88;
 }
 
+.hidden{
+display:none;
+}
 </style>
 </head>
 
@@ -161,7 +157,7 @@ text-shadow:0 0 20px #ff2e88;
 
 <div class="stars"></div>
 
-<div class="container">
+<div class="container" id="mainContent">
 <h1>
 Michelina ❤️<br>
 ¿Quieres celebrar San Valentín<br>
@@ -174,9 +170,11 @@ con tu negro? ❤️
 </div>
 </div>
 
+<div id="countdown" class="hidden"></div>
+
 <script>
 
-/* CORAZONES */
+// CORAZONES
 function createHeart(){
 let heart=document.createElement("div");
 heart.className="shootingHeart";
@@ -188,19 +186,12 @@ setTimeout(()=>heart.remove(),4000);
 }
 setInterval(createHeart,800);
 
-/* FRASES */
+// FRASES
 let warnings=[
 "⚠️ ¿Segura?",
 "ja ja que tontaaaa 😜",
 "imposibleeee",
-"one two tree 🌳",
 "hasta luego lucas 😏",
-"soy tu grano favorito",
-"😗 silbando...",
-".........",
-"que no pesadaaa 😂",
-"vengaaaa casi",
-"tu puedes 💪",
 "amor detectado 💘",
 "no puedes escapar 😈",
 "última advertencia romántica",
@@ -208,8 +199,6 @@ let warnings=[
 ];
 
 let count=0;
-let activeMessages=0;
-
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 
@@ -223,53 +212,52 @@ box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
 
 box.style.top=Math.random()*70+"%";
 box.style.left=Math.random()*70+"%";
-box.style.transform="scale("+(1 + Math.random()*0.5)+") rotate("+(Math.random()*20-10)+"deg)";
 
 document.body.appendChild(box);
-activeMessages++;
 
 box.querySelector(".closeBtn").onclick=()=>{
 box.remove();
-activeMessages--;
-
-if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){
-showBigYes();
-}
 };
 
 noBtn.style.top=Math.random()*80+"%";
 noBtn.style.left=Math.random()*80+"%";
-noBtn.style.transform="scale("+(1 - count*0.05)+")";
 
 count++;
 
+if(warnings[count-1] === "❌ Error 404"){
+setTimeout(showBigYes,1000);
 }
-
+}
 });
 
+yesBtn.addEventListener("click",showLoveMessage);
+
 function showBigYes(){
-document.body.innerHTML="<div class='stars'></div>";
+document.getElementById("mainContent").classList.add("hidden");
+
 let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
+
 big.addEventListener("click",showLoveMessage);
 }
 
-yesBtn.addEventListener("click",showLoveMessage);
-
 function showLoveMessage(){
-document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
+document.getElementById("mainContent").classList.add("hidden");
+
+let countdown=document.getElementById("countdown");
+countdown.classList.remove("hidden");
+countdown.innerHTML="Sabía que ibas a decir que sí ❤️";
+
 setTimeout(startCountdown,3000);
 }
 
 function startCountdown(){
-document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
+
 let countdown=document.getElementById("countdown");
 
-let target=new Date();
-target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
-target.setHours(14,0,0);
+let target=new Date("February 14, 2026 14:00:00");
 
 function update(){
 let now=new Date().getTime();
