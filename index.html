@@ -10,10 +10,10 @@
 body{
 margin:0;
 overflow:hidden;
-font-family: 'Segoe UI', sans-serif;
+font-family:'Segoe UI', sans-serif;
 color:white;
 text-align:center;
-background: radial-gradient(ellipse at bottom, #090a1a 0%, #000000 100%);
+background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
 }
 
 /* ESTRELLAS */
@@ -28,7 +28,7 @@ radial-gradient(2px 2px at 40% 60%, white, transparent),
 radial-gradient(1px 1px at 90% 10%, white, transparent);
 background-repeat:repeat;
 background-size:300px 300px;
-animation:moveStars 60s linear infinite;
+animation:moveStars 80s linear infinite;
 z-index:0;
 }
 
@@ -37,24 +37,29 @@ from{background-position:0 0;}
 to{background-position:-1000px 1000px;}
 }
 
-/* CONTENIDO */
 .container{
 position:relative;
 z-index:5;
-top:30vh;
+top:28vh;
 padding:20px;
 }
 
 h1{
-font-size:28px;
-line-height:1.4;
-text-shadow:0 0 15px rgba(255,100,200,0.7);
+font-size:30px;
+line-height:1.5;
+text-shadow:0 0 20px #ff4da6;
+}
+
+.buttons{
+margin-top:30px;
+display:flex;
+justify-content:center;
+gap:30px;
 }
 
 button{
-padding:15px 30px;
+padding:15px 35px;
 font-size:18px;
-margin:15px;
 border:none;
 border-radius:30px;
 cursor:pointer;
@@ -64,66 +69,60 @@ transition:0.3s;
 #yes{
 background:#ff2e88;
 color:white;
-box-shadow:0 0 15px #ff2e88;
+box-shadow:0 0 20px #ff2e88;
 }
 
 #no{
 background:#222;
 color:white;
-position:absolute;
 }
 
-/* MENSAJES GRANDES */
+/* MENSAJES */
 .messageBox{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-background:#0d0d0d;
-padding:40px;
+background:#111;
+padding:50px;
 border-radius:25px;
 border:3px solid #ff2e88;
 z-index:9999;
-font-size:22px;
-width:80%;
-max-width:400px;
-box-shadow:0 0 30px #ff2e88;
+font-size:24px;
+width:85%;
+max-width:420px;
+box-shadow:0 0 40px #ff2e88;
 }
 
 .closeBtn{
-margin-top:20px;
+margin-top:25px;
 background:#ff2e88;
 border:none;
-padding:12px 20px;
-border-radius:15px;
+padding:14px 25px;
+border-radius:20px;
 color:white;
 font-size:16px;
 }
 
-/* CORAZONES FUGACES */
-.shootingHeart{
-position:fixed;
-font-size:22px;
-color:#ff4da6;
-text-shadow:0 0 15px #ff4da6;
-z-index:2;
-animation:shoot 4s linear forwards;
-}
-
-@keyframes shoot{
-0%{transform:translate(0,0) scale(1); opacity:1;}
-100%{transform:translate(-600px,600px) scale(0.5); opacity:0;}
-}
-
-/* CONTADOR */
-#countdown{
+/* SI GIGANTE */
+.bigYes{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:35px;
+font-size:65px;
+background:#ff2e88;
+padding:50px 90px;
+border-radius:50px;
 z-index:10000;
-text-shadow:0 0 20px #ff2e88;
+animation:heartbeat 1s infinite;
+box-shadow:0 0 40px #ff2e88;
+}
+
+@keyframes heartbeat{
+0%{transform:translate(-50%,-50%) scale(1);}
+50%{transform:translate(-50%,-50%) scale(1.15);}
+100%{transform:translate(-50%,-50%) scale(1);}
 }
 
 </style>
@@ -133,77 +132,102 @@ text-shadow:0 0 20px #ff2e88;
 
 <div class="stars"></div>
 
-<div class="container" id="main">
+<div class="container">
 <h1>
 Michelina ❤️<br>
-¿Quieres celebrar San Valentín conmigo,<br>
+¿Quieres celebrar San Valentín<br>
 con tu negro? ❤️
 </h1>
 
+<div class="buttons">
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
 </div>
-
-<audio id="noSound">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_7d1e7b4f02.mp3">
-</audio>
+</div>
 
 <script>
 
-/* CORAZONES FUGACES */
-function createHeart(){
-let heart=document.createElement("div");
-heart.className="shootingHeart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*window.innerWidth+"px";
-heart.style.top=Math.random()*window.innerHeight/2+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),4000);
-}
-setInterval(createHeart,800);
-
-/* MENSAJES NO */
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
-const noSound=document.getElementById("noSound");
 
 let warnings=[
-"⚠️ ¿Segura que quieres pulsar eso?",
-"🚨 Esto puede provocar besos inesperados",
-"💥 Riesgo extremo de abrazos infinitos",
-"💘 Advertencia: amor en aumento",
-"📍 Se detecta corazón acelerado",
-"❌ Error 404: opción no válida",
-"🔥 Última oportunidad antes de que el destino actúe..."
+"⚠️ ¿Estás completamente segura?",
+"🚨 Riesgo extremo de abrazos infinitos",
+"💘 Advertencia: nivel de amor subiendo",
+"🔥 Esto puede provocar besos inesperados",
+"💥 Tu corazón podría acelerarse",
+"📍 Detectando sentimientos intensos...",
+"😈 Última advertencia romántica",
+"💫 No hay vuelta atrás...",
+"⚡ El destino está observando...",
+"❌ Error 404"
+];
+
+let closeTexts=[
+"noooo",
+"no",
+"X",
+"imposible",
+"no puedes",
+"cancelar",
+"salir",
+"borrar",
+"cerrar",
+"intentar huir"
 ];
 
 let count=0;
 
 noBtn.addEventListener("click",()=>{
 
-noSound.play();
+if(count < warnings.length){
 
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`${warnings[count % warnings.length]}
-<br><button class="closeBtn">Cerrar si te atreves</button>`;
+box.innerHTML=`${warnings[count]}
+<br><button class="closeBtn">${closeTexts[count]}</button>`;
+
 document.body.appendChild(box);
 
-box.querySelector(".closeBtn").onclick=()=>box.remove();
+box.querySelector(".closeBtn").onclick=()=>{
 
-noBtn.style.top=Math.random()*80+"%";
-noBtn.style.left=Math.random()*80+"%";
+box.remove();
+
+if(warnings[count] === "❌ Error 404"){
+showBigYes();
+}
+
+};
+
+noBtn.style.transform="scale("+(1 - count*0.08)+")";
 
 count++;
 
+}
+
 });
 
-/* SI */
+function showBigYes(){
+
+document.body.innerHTML="";
+
+let big=document.createElement("div");
+big.className="bigYes";
+big.innerText="SÍ ❤️";
+document.body.appendChild(big);
+
+big.addEventListener("click",()=>{
+startCountdown();
+});
+
+}
+
 yesBtn.addEventListener("click",startCountdown);
 
 function startCountdown(){
 
-document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
+document.body.innerHTML="<div class='stars'></div><div id='countdown' style='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:35px;text-shadow:0 0 20px #ff2e88;'></div>";
+
 let countdown=document.getElementById("countdown");
 
 let target=new Date();
