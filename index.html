@@ -32,22 +32,6 @@ z-index:0;
 from{background-position:0 0;}
 to{background-position:-1000px 1000px;}
 }
-
-/* Estilo para las estrellas fugaces */
-.shooting-heart {
-    position: absolute;
-    z-index: 1;
-    pointer-events: none;
-    animation: shoot linear forwards;
-    opacity: 0;
-}
-@keyframes shoot {
-    0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translate(600px, 600px) scale(1.5) rotate(360deg); opacity: 0; }
-}
-
 .container{
 position:relative;
 z-index:5;
@@ -168,8 +152,6 @@ font-weight: bold;
 </head>
 <body>
 <div class="stars"></div>
-<div id="shooting-stars-container"></div>
-
 <div class="container">
 <h1>Michelina <br>¿Quieres celebrar San Valentín<br>con tu negro? </h1> ❤ ❤
 <div class="buttons">
@@ -188,48 +170,31 @@ const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const splashEl=document.getElementById("minecraftSplash");
 
-// Función para estrellas fugaces realistas (corazones)
-function createShootingHeart() {
-    const container = document.getElementById('shooting-stars-container');
-    const heart = document.createElement('div');
-    const types = ["❤", "💖", "💝", "💕", "💗"];
-    heart.className = 'shooting-heart';
-    heart.innerHTML = types[Math.floor(Math.random() * types.length)];
-    heart.style.left = Math.random() * (window.innerWidth / 2) + 'px';
-    heart.style.top = Math.random() * (window.innerHeight / 2) + 'px';
-    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
-    heart.style.color = "#ff4da6";
-    heart.style.animationDuration = (Math.random() * 2 + 1) + 's';
-    container.appendChild(heart);
-    setTimeout(() => heart.remove(), 3000);
-}
-setInterval(createShootingHeart, 2000);
-
 noBtn.addEventListener("click",()=>{
  if(count < warnings.length){
-    let box=document.createElement("div");
-    box.className="messageBox";
-    box.innerHTML=warnings[count];
-    let maxX = window.innerWidth - 240;
-    let maxY = window.innerHeight - 150;
-    box.style.left = Math.max(10, Math.random() * maxX) + "px";
-    box.style.top = Math.max(10, Math.random() * maxY) + "px";
-    document.body.appendChild(box);
-    activeMessages++;
-    box.onclick=()=>{
-        box.remove();
-        activeMessages--;
-        if(warnings[count-1] === " Error 404" && activeMessages === 0){ showBigYes(); }
-    };
-    splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
-    noBtn.style.position = "fixed";
-    noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
-    noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
-    noBtn.style.transform="scale("+(1 - count*0.05)+")";
-    count++;
+ let box=document.createElement("div");
+ box.className="messageBox";
+ box.innerHTML=warnings[count];
+ let maxX = window.innerWidth - 240;
+ let maxY = window.innerHeight - 150;
+ box.style.left = Math.max(10, Math.random() * maxX) + "px";
+ box.style.top = Math.max(10, Math.random() * maxY) + "px";
+ document.body.appendChild(box);
+ activeMessages++;
+ box.onclick=()=>{
+ box.remove();
+ activeMessages--;
+ if(warnings[count-1] === " Error 404" && activeMessages === 0){ showBigYes(); }
+ };
+ splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+ noBtn.style.position = "fixed";
+ noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
+ noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
+ noBtn.style.transform="scale("+(1 - count*0.05)+")";
+ count++;
  } else {
-    // El botón desaparece cuando ya no hay más mensajes
-    noBtn.style.display = "none";
+ // Cuando se acaban los mensajes, el botón "No" desaparece
+ noBtn.style.display = "none";
  }
 });
 
@@ -251,7 +216,7 @@ function createConfetti(amount = 70) {
 }
 
 function showBigYes(){
- document.body.innerHTML="<div class='stars'></div><div id='shooting-stars-container'></div>";
+ document.body.innerHTML="<div class='stars'></div>";
  let big=document.createElement("div");
  big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:pulseBg 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;color:white;";
  big.innerText="SÍ ❤";
@@ -264,7 +229,6 @@ yesBtn.onclick = showLoveMessage;
 function showLoveMessage(){
  document.body.innerHTML = `
  <div class='stars'></div>
- <div id='shooting-stars-container'></div>
  <div class='bgHeart' id='mainHeart'> ❤</div>
  <div class='finalTitle'> FELIZ SAN VALENTIN AMOR ❤ ❤</div>
  <div id='countdown'>Cargando sorpresa...</div>
@@ -283,17 +247,17 @@ function startCountdown(){
  target.setDate(now.getDate() + daysUntilFriday);
  target.setHours(14,0,0,0);
  function update(){
-    let nowTime=new Date().getTime();
-    let distance=target - nowTime;
-    if(distance<=0){ 
-        countdownContainer.innerHTML="Aun no, tranquila ❤";
-        return; 
-    }
-    let d=Math.floor(distance/(1000*60*60*24));
-    let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-    let m=Math.floor((distance%(1000*60*60))/(1000*60));
-    let s=Math.floor((distance%(1000*60))/1000);
-    countdownContainer.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+ let nowTime=new Date().getTime();
+ let distance=target - nowTime;
+ if(distance<=0){ 
+ countdownContainer.innerHTML="Aun no, tranquila ❤";
+ return; 
+ }
+ let d=Math.floor(distance/(1000*60*60*24));
+ let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+ let m=Math.floor((distance%(1000*60*60))/(1000*60));
+ let s=Math.floor((distance%(1000*60))/1000);
+ countdownContainer.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
  }
  setInterval(update, 1000);
  update();
