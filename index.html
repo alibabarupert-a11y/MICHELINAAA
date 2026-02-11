@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Michelina 💖</title>
+<title>Para Michelina ❤️</title>
 
 <style>
 body{
@@ -15,21 +15,28 @@ color:white;
 text-align:center;
 }
 
-/* Fondo galaxia */
-body::before{
-content:"";
+/* Fondo galaxia real */
+#stars{
 position:fixed;
-width:200%;
-height:200%;
-background:radial-gradient(white 1px, transparent 1px);
-background-size:40px 40px;
-animation:moveStars 60s linear infinite;
-opacity:0.2;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+z-index:0;
 }
 
-@keyframes moveStars{
-from{transform:translate(0,0);}
-to{transform:translate(-500px,-500px);}
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.2;}
+to{opacity:1;}
 }
 
 .container{
@@ -56,7 +63,7 @@ color:white;
 #no{
 background:#444;
 color:white;
-position:relative;
+position:absolute;
 }
 
 .bigYes{
@@ -68,6 +75,7 @@ font-size:60px;
 background:#ff1a75;
 padding:40px 80px;
 border-radius:50px;
+z-index:5;
 animation:heartbeat 1s infinite;
 }
 
@@ -81,70 +89,85 @@ animation:heartbeat 1s infinite;
 
 .messageBox{
 position:fixed;
-top:40%;
+top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 background:#111;
 padding:20px;
 border-radius:20px;
 border:2px solid #ff4d88;
+z-index:10;
 }
 
 .closeBtn{
-position:absolute;
-top:5px;
-right:10px;
 cursor:pointer;
 font-weight:bold;
+display:block;
+margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6bfe6b3d9d.mp3?filename=romantic-saxophone-110918.mp3" type="audio/mpeg">
-</audio>
+<div id="stars"></div>
 
 <div class="container" id="main">
-<h1>Michelina... 💖<br>¿Quieres celebrar San Valentín conmigo?</h1>
+<h1>Michelina mi negro ❤️<br>¿Quieres celebrar San Valentín conmigo?</h1>
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
 </div>
 
+<audio id="music">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6bfe6b3d9d.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="noSound">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_7d1e7b4f02.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 
-const music = document.getElementById("music");
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
+const starsContainer = document.getElementById("stars");
+for(let i=0;i<200;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.top=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
+starsContainer.appendChild(star);
+}
 
-let warnings = [
-"⚠️ ¿Estás segura? Esto puede ser MUY romántico...",
-"🚨 Advertencia: riesgo alto de besos",
-"💥 Peligro: abrazos ilimitados",
+const yesBtn=document.getElementById("yes");
+const noBtn=document.getElementById("no");
+const music=document.getElementById("music");
+const noSound=document.getElementById("noSound");
+
+let warnings=[
+"⚠️ ¿Segura? Esto será MUY romántico...",
+"💥 Peligro: abrazos infinitos",
+"🚨 Riesgo alto de besos",
 "❌ Última oportunidad...",
-"🖤 Error 404: opción 'No' no encontrada"
+"Error 404: opción 'No' no disponible"
 ];
 
-let clickCount = 0;
+let clickCount=0;
 
-noBtn.addEventListener("click", () => {
+noBtn.addEventListener("click",()=>{
 
-if(navigator.vibrate) navigator.vibrate([200,100,200]);
+noSound.play();
 
-if(clickCount < warnings.length){
+if(clickCount<warnings.length){
 
-let box = document.createElement("div");
+let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`<span class="closeBtn">X</span><p>${warnings[clickCount]}</p>`;
+box.innerHTML=`<p>${warnings[clickCount]}</p>
+<button class="closeBtn">Cerrar</button>`;
 document.body.appendChild(box);
 
 box.querySelector(".closeBtn").onclick=()=>{
 box.remove();
 };
 
-noBtn.style.transform=`scale(${1 - clickCount*0.1})`;
-noBtn.style.position="absolute";
 noBtn.style.top=Math.random()*80+"%";
 noBtn.style.left=Math.random()*80+"%";
 
@@ -153,44 +176,45 @@ clickCount++;
 }else{
 
 document.body.innerHTML="";
-let big = document.createElement("div");
+let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
 
-if(navigator.vibrate) navigator.vibrate([300,100,300,100,500]);
+big.addEventListener("click",()=>{
+document.body.innerHTML="<h1 style='margin-top:40vh;'>Sabía que dirías que sí ❤️</h1>";
+createHearts();
+music.play();
+});
 
 }
 });
 
-yesBtn.addEventListener("click", () => {
+yesBtn.addEventListener("click",()=>{
 
 music.play();
 
-if(navigator.vibrate) navigator.vibrate([100,50,100,50,300]);
-
-document.getElementById("main").innerHTML="<h1>Sabía que dirías que sí... ❤️</h1>";
-
-createConfetti();
+document.getElementById("main").innerHTML="<h1>Sabía que dirías que sí ❤️</h1>";
+createHearts();
 
 });
 
-function createConfetti(){
-for(let i=0;i<50;i++){
+function createHearts(){
+for(let i=0;i<40;i++){
 let heart=document.createElement("div");
 heart.innerHTML="💖";
 heart.style.position="fixed";
 heart.style.left=Math.random()*100+"%";
 heart.style.top="-10px";
 heart.style.fontSize=Math.random()*20+20+"px";
-heart.style.animation=`fall ${Math.random()*3+2}s linear`;
+heart.style.animation="fall 3s linear";
 document.body.appendChild(heart);
 
-setTimeout(()=>heart.remove(),5000);
+setTimeout(()=>heart.remove(),3000);
 }
 }
 
-const style=document.createElement('style');
+const style=document.createElement("style");
 style.innerHTML=`
 @keyframes fall{
 to{transform:translateY(100vh);}
