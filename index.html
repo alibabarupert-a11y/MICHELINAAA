@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Para Michelina </title> ❤
+<title>Para Michelina </title>
 <style>
 body{
 margin:0;
@@ -12,6 +12,7 @@ font-family:'Segoe UI', sans-serif;
 color:white;
 text-align:center;
 background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
+touch-action: manipulation;
 }
 /* ESTRELLAS */
 .stars{
@@ -35,23 +36,23 @@ to{background-position:-1000px 1000px;}
 .container{
 position:relative;
 z-index:5;
-top:15vh; /* Ajustado para que el texto no se corte en móviles */
+top:15vh;
 padding:10px;
 }
 h1{
-font-size:24px; /* Tamaño optimizado para que quepa bien en una pantalla móvil */
+font-size:24px;
 line-height:1.3;
 text-shadow:0 0 20px #ff4da6;
 }
 .buttons{
-margin-top:40px;
+margin-top:20px;
 position:relative;
 display: inline-block;
 }
-/* EFECTO MINECRAFT SPLASH */
+/* ESTILO MINECRAFT SPLASH */
 #minecraftSplash {
  position: absolute;
- top: -30px;
+ top: -25px;
  right: -30px;
  color: #ffff00;
  font-weight: bold;
@@ -100,6 +101,18 @@ width: 200px;
 box-shadow:0 0 30px #ff2e88;
 cursor: pointer;
 }
+/* CORAZONES FLOTANTES */
+.shootingHeart{
+position:fixed;
+font-size:20px;
+z-index:2;
+animation:shoot 4s linear forwards;
+text-shadow:0 0 20px #ff4da6;
+}
+@keyframes shoot{
+0%{transform:translate(0,0); opacity:1;}
+100%{transform:translate(-800px,800px); opacity:0;}
+}
 /* PANTALLA FINAL */
 .finalTitle {
  position: fixed;
@@ -136,6 +149,19 @@ z-index: 10;
 </div>
 
 <script>
+/* CORAZONES */
+function createHeart(){
+let heart=document.createElement("div");
+heart.className="shootingHeart";
+heart.innerHTML="💖"; 
+heart.style.left=Math.random()*window.innerWidth+"px";
+heart.style.top=Math.random()*window.innerHeight/2+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+}
+setInterval(createHeart,800);
+
+/* LÓGICA DE MENSAJES */
 let warnings=[" ¿Segura?", "ja ja que tontaaaa ", "imposibleeee", "one two tree ", "hasta luego lucas ", "soy tu grano favorito", " silbando...", ".........", "que no pesadaaa ", "vengaaaa casi", "tu puedes ", "amor detectado ", "no puedes escapar ", "última advertencia romántica", " Error 404"];
 let splashes = ["¿No lo ves?", "¡Dale al SÍ!", "¿Tan difícil es?", "¡Error fatal!", "Piénsalo bien...", "¿En serio?"];
 let count=0;
@@ -160,7 +186,6 @@ if(warnings[count-1] === " Error 404" && activeMessages === 0){
 showBigYes();
 }
 };
-// Cambia el texto del splash al estilo Minecraft
 splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
 noBtn.style.top=Math.random()*80+"%";
 noBtn.style.left=Math.random()*80+"%";
@@ -172,7 +197,7 @@ count++;
 function showBigYes(){
 document.body.innerHTML="<div class='stars'></div>";
 let big=document.createElement("div");
-big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:pulse 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;";
+big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:heartbeat 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;color:white;";
 big.innerText="SÍ ❤";
 document.body.appendChild(big);
 big.onclick = showLoveMessage;
