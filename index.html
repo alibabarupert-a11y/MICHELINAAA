@@ -55,15 +55,14 @@ position:relative;
 display: inline-block;
 }
 
-/* ESTILO MINECRAFT SPLASH */
 #minecraftSplash {
     position: absolute;
     top: -25px;
     right: -30px;
-    color: #ffff00; /* Amarillo Minecraft */
+    color: #ffff00;
     font-weight: bold;
     font-size: 18px;
-    text-shadow: 2px 2px #3f3f00; /* Sombra oscura */
+    text-shadow: 2px 2px #3f3f00;
     transform: rotate(-20deg);
     z-index: 100;
     pointer-events: none;
@@ -106,7 +105,7 @@ white-space: nowrap;
 .messageBox{
 position:fixed;
 background:#111;
-padding:20px;
+padding:25px;
 border-radius:20px;
 border:3px solid #ff2e88;
 z-index:9999;
@@ -126,37 +125,16 @@ color:#ff2e88;
 font-size:16px;
 }
 
-.shootingHeart{
-position:fixed;
-font-size:20px;
-z-index:2;
-animation:shoot 4s linear forwards;
-text-shadow:0 0 20px #ff4da6;
+/* ESTILO CONFETI CORAZONES */
+.confetti {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    animation: fall linear forwards;
 }
 
-@keyframes shoot{
-0%{transform:translate(0,0); opacity:1;}
-100%{transform:translate(-800px,800px); opacity:0;}
-}
-
-.bigYes{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:50px;
-background:#ff2e88;
-padding:40px 60px;
-border-radius:50px;
-z-index:10000;
-animation:heartbeat 1s infinite;
-box-shadow:0 0 40px #ff2e88;
-}
-
-@keyframes heartbeat{
-0%{transform:translate(-50%,-50%) scale(1);}
-50%{transform:translate(-50%,-50%) scale(1.15);}
-100%{transform:translate(-50%,-50%) scale(1);}
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
 #countdown{
@@ -166,7 +144,8 @@ left:50%;
 transform:translate(-50%,-50%);
 font-size:24px;
 width: 90%;
-text-shadow:0 0 20px #ff2e88;
+text-shadow:0 0 20px #ff4da6;
+z-index: 10;
 }
 </style>
 </head>
@@ -179,25 +158,12 @@ text-shadow:0 0 20px #ff2e88;
 <div class="buttons">
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
-<!-- TEXTO MINECRAFT -->
 <div id="minecraftSplash">¿No lo ves?</div>
 </div>
 </div>
 
 <script>
-function createHeart(){
-let heart=document.createElement("div");
-heart.className="shootingHeart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*window.innerWidth+"px";
-heart.style.top=Math.random()*window.innerHeight/2+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),4000);
-}
-setInterval(createHeart,800);
-
 let warnings=["⚠️ ¿Segura?", "ja ja que tontaaaa 😜", "imposibleeee", "one two tree 🌳", "hasta luego lucas 😏", "soy tu grano favorito", "😗 silbando...", ".........", "que no pesadaaa 😂", "vengaaaa casi", "tu puedes 💪", "amor detectado 💘", "no puedes escapar 😈", "última advertencia romántica", "❌ Error 404"];
-// FRASES ESTILO MINECRAFT
 let splashes = ["¿Tan difícil es?", "¿No lo ves?", "¡Dale al SÍ!", "Piénsalo bien...", "¡Esa no es!", "¡Error fatal!", "¿En serio?", "Sigue buscando"];
 
 let count=0;
@@ -211,7 +177,7 @@ noBtn.addEventListener("click",()=>{
 if(count < warnings.length){
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}<br><small style="font-size:10px">(Toca para cerrar)</small>`;
+box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
 
 let maxX = window.innerWidth - 240;
 let maxY = window.innerHeight - 150;
@@ -227,9 +193,7 @@ activeMessages--;
 if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
 };
 
-// CAMBIAR TEXTO MINECRAFT
 splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
-
 noBtn.style.position = "fixed";
 noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
 noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
@@ -238,45 +202,66 @@ count++;
 }
 });
 
+function createConfetti() {
+    const hearts = ["❤️", "💖", "💝", "💕", "💗"];
+    const colors = ["#ff2e88", "#ff4da6", "#ffffff", "#ff0000"];
+    for(let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const c = document.createElement("div");
+            c.className = "confetti";
+            c.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            c.style.left = Math.random() * 100 + "vw";
+            c.style.top = "-5vh";
+            c.style.color = colors[Math.floor(Math.random() * colors.length)];
+            c.style.fontSize = Math.random() * 20 + 10 + "px";
+            c.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 5000);
+        }, i * 100);
+    }
+}
+
 function showBigYes(){
-document.body.innerHTML="<div class='stars'></div>";
-let big=document.createElement("div");
-big.className="bigYes";
-big.innerText="SÍ ❤️";
-document.body.appendChild(big);
-big.onclick = showLoveMessage;
+    document.body.innerHTML="<div class='stars'></div>";
+    let big=document.createElement("div");
+    big.className="bigYes"; // Usará el estilo heartbeat que ya tenías
+    big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:heartbeat 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;";
+    big.innerText="SÍ ❤️";
+    document.body.appendChild(big);
+    big.onclick = showLoveMessage;
 }
 
 yesBtn.onclick = showLoveMessage;
 
 function showLoveMessage(){
-document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
-setTimeout(startCountdown,3000);
+    document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
+    createConfetti(); // LANZA EL CONFETI
+    setTimeout(startCountdown,3000);
 }
 
 function startCountdown(){
-document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
-let countdown=document.getElementById("countdown");
-let now = new Date();
-let target = new Date();
-let day = now.getDay();
-let daysUntilFriday = (5 - day + 7) % 7;
-if(daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
-target.setDate(now.getDate() + daysUntilFriday);
-target.setHours(14,0,0,0);
+    document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
+    let countdown=document.getElementById("countdown");
+    let now = new Date();
+    let target = new Date();
+    let day = now.getDay();
+    let daysUntilFriday = (5 - day + 7) % 7;
+    if(daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
+    target.setDate(now.getDate() + daysUntilFriday);
+    target.setHours(14,0,0,0);
 
-function update(){
-let nowTime=new Date().getTime();
-let distance=target - nowTime;
-if(distance<=0){ countdown.innerHTML="Espera impaciente ❤️"; return; }
-let d=Math.floor(distance/(1000*60*60*24));
-let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-let m=Math.floor((distance%(1000*60*60))/(1000*60));
-let s=Math.floor((distance%(1000*60))/1000);
-countdown.innerHTML=d+"d "+h+"h "+m+"m "+s+"s ❤️";
-}
-setInterval(update,1000);
-update();
+    function update(){
+        let nowTime=new Date().getTime();
+        let distance=target - nowTime;
+        if(distance<=0){ countdown.innerHTML="Espera impaciente ❤️"; return; }
+        let d=Math.floor(distance/(1000*60*60*24));
+        let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+        let m=Math.floor((distance%(1000*60*60))/(1000*60));
+        let s=Math.floor((distance%(1000*60))/1000);
+        countdown.innerHTML=d+"d "+h+"h "+m+"m "+s+"s ❤️";
+    }
+    setInterval(update,1000);
+    update();
 }
 </script>
 </body>
