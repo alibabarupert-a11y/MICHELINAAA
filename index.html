@@ -1,182 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-
-<!-- OPTIMIZACIÓN iOS -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>Para Michelina ❤️</title>
-
-<style>
-
-html,body{
-margin:0;
-padding:0;
-height:100%;
-overflow:hidden;
-font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-background:black;
-color:white;
-text-align:center;
-}
-
-/* GALAXIA SUAVE PARA SAFARI */
-body{
-background: radial-gradient(circle at 50% 80%, #1a0033 0%, #000000 60%);
-}
-
-/* ESTRELLAS */
-.stars{
-position:fixed;
-width:100%;
-height:100%;
-background:
-radial-gradient(2px 2px at 20% 30%, white, transparent),
-radial-gradient(1px 1px at 70% 80%, white, transparent),
-radial-gradient(2px 2px at 40% 60%, white, transparent),
-radial-gradient(1px 1px at 90% 10%, white, transparent);
-background-size:300px 300px;
-animation:moveStars 120s linear infinite;
-z-index:0;
-}
-
-@keyframes moveStars{
-from{background-position:0 0;}
-to{background-position:-800px 800px;}
-}
-
-/* CONTENIDO */
-.container{
-position:relative;
-z-index:5;
-top:25vh;
-padding:20px;
-}
-
-h1{
-font-size:28px;
-line-height:1.5;
-text-shadow:0 0 20px #ff4da6;
-}
-
-/* BOTONES */
-.buttons{
-margin-top:40px;
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:20px;
-position:relative;
-}
-
-button{
-padding:15px 40px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-transition:all 0.3s ease;
-}
-
-#yes{
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
-}
-
-#no{
-background:#222;
-color:white;
-}
-
-/* MENSAJES */
-.messageBox{
-position:fixed;
-background:#111;
-padding:40px;
-border-radius:25px;
-border:3px solid #ff2e88;
-font-size:22px;
-max-width:280px;
-box-shadow:0 0 30px #ff2e88;
-animation:float 2s ease-in-out infinite alternate;
-z-index:9999;
-}
-
-@keyframes float{
-from{transform:translateY(0);}
-to{transform:translateY(15px);}
-}
-
-.closeBtn{
-position:absolute;
-top:8px;
-right:12px;
-background:none;
-border:none;
-color:white;
-font-size:20px;
-cursor:pointer;
-}
-
-/* CORAZONES ESTRELLA FUGAZ */
-.shootingHeart{
-position:fixed;
-font-size:18px;
-animation:shoot 5s linear forwards;
-z-index:2;
-}
-
-@keyframes shoot{
-0%{transform:translate(0,0);opacity:1;}
-100%{transform:translate(-600px,600px);opacity:0;}
-}
-
-/* SI GIGANTE */
-.bigYes{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:60px;
-background:#ff2e88;
-padding:50px 80px;
-border-radius:50px;
-z-index:10000;
-animation:heartbeat 1s infinite;
-box-shadow:0 0 40px #ff2e88;
-}
-
-@keyframes heartbeat{
-0%{transform:translate(-50%,-50%) scale(1);}
-50%{transform:translate(-50%,-50%) scale(1.15);}
-100%{transform:translate(-50%,-50%) scale(1);}
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="stars"></div>
-
-<div class="container">
-<h1>
-Michelina ❤️<br>
-¿Quieres celebrar San Valentín<br>
-con tu negro? ❤️
-</h1>
-
-<div class="buttons">
-<button id="yes">Sí ❤️</button>
-<button id="no">No ❌</button>
-</div>
-</div>
-
 <script>
 
-/* CORAZONES */
+/* ====== CORAZONES ====== */
 function createHeart(){
 let heart=document.createElement("div");
 heart.className="shootingHeart";
@@ -188,7 +12,7 @@ setTimeout(()=>heart.remove(),5000);
 }
 setInterval(createHeart,1000);
 
-/* FRASES */
+/* ====== FRASES NO ====== */
 let warnings=[
 "¿Segura?",
 "ja que tontaaaa 😜",
@@ -208,6 +32,7 @@ let count=0;
 let activeMessages=0;
 
 const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
 
 noBtn.addEventListener("click",()=>{
 
@@ -232,11 +57,10 @@ showBigYes();
 }
 };
 
-/* MOVER Y HACER PEQUEÑO */
 noBtn.style.transform=`translate(${Math.random()*150-75}px, ${Math.random()*150-75}px) scale(${1 - count*0.06})`;
 
 if(warnings[count]==="❌ Error 404"){
-noBtn.style.display="none";   // 🔥 DESAPARECE EN EL ÚLTIMO
+noBtn.style.display="none";
 }
 
 count++;
@@ -245,15 +69,79 @@ count++;
 
 });
 
+/* ====== FUNCION FINAL ====== */
+function startLoveSequence(){
+
+document.body.innerHTML="<div class='stars'></div>";
+
+let msg=document.createElement("h1");
+msg.innerText="Sabía que ibas a decir que sí ❤️";
+msg.style.marginTop="40vh";
+document.body.appendChild(msg);
+
+/* Vibración compatible */
+if(navigator.vibrate){
+navigator.vibrate([200,100,200]);
+}
+
+setTimeout(()=>{
+msg.remove();
+showCountdown();
+},3000);
+
+}
+
+/* ====== TEMPORIZADOR ====== */
+function showCountdown(){
+
+let container=document.createElement("div");
+container.style.marginTop="35vh";
+container.style.fontSize="28px";
+container.id="countdown";
+document.body.appendChild(container);
+
+let target=new Date();
+target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7)); // próximo viernes
+target.setHours(14,0,0,0);
+
+let interval=setInterval(()=>{
+let now=new Date();
+let diff=target-now;
+
+if(diff<=0){
+clearInterval(interval);
+container.innerHTML="Espera impaciente ❤️";
+
+if(navigator.vibrate){
+navigator.vibrate([300,100,300,100,300]);
+}
+
+return;
+}
+
+let days=Math.floor(diff/(1000*60*60*24));
+let hours=Math.floor((diff/(1000*60*60))%24);
+let minutes=Math.floor((diff/1000/60)%60);
+let seconds=Math.floor((diff/1000)%60);
+
+container.innerHTML=
+`${days}d ${hours}h ${minutes}m ${seconds}s ❤️`;
+
+},1000);
+
+}
+
+/* ====== SI GIGANTE ====== */
 function showBigYes(){
 document.body.innerHTML="<div class='stars'></div>";
 let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
+big.onclick=startLoveSequence;
 document.body.appendChild(big);
 }
 
-</script>
+/* ====== SI NORMAL ====== */
+yesBtn.addEventListener("click",startLoveSequence);
 
-</body>
-</html>
+</script>
