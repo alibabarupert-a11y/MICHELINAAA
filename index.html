@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín 💖</title>
+<style>
+body {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: white;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 1.8em;
+}
+
+button {
+  font-size: 1.2em;
+  padding: 12px 25px;
+  margin: 15px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+#yes {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#no {
+  background-color: #f44336;
+  color: white;
+  position: relative;
+}
+
+#countdown {
+  font-size: 1.3em;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1 id="question">¿Quieres celebrar San Valentín con tu negro? 🖤</h1>
+
+  <div id="buttons">
+    <button id="yes">Sí ❤️</button>
+    <button id="no">No ❌</button>
+  </div>
+
+  <div id="countdown"></div>
+</div>
+
+<script>
+// Sonido error
+const errorSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+
+// Sonido confirmación
+const successSound = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+
+// Botón NO se escapa
+document.getElementById("no").addEventListener("click", () => {
+  errorSound.play();
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  document.getElementById("no").style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// Botón SÍ
+document.getElementById("yes").addEventListener("click", () => {
+  successSound.play();
+  document.getElementById("question").innerText = "Cuenta atrás para nuestro momento ❤️";
+  document.getElementById("buttons").style.display = "none";
+  startCountdown();
+});
+
+// Cuenta atrás
+function startCountdown() {
+  // VIERNES A LAS 12:00 (AJUSTABLE)
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + ((5 - targetDate.getDay() + 7) % 7));
+  targetDate.setHours(12, 0, 0, 0);
+
+  const timer = setInterval(() => {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      clearInterval(timer);
+      document.getElementById("countdown").innerText =
+        "Ya queda poco… sé paciente ❤️";
+      return;
+    }
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerText =
+      `⏳ ${hours}h ${minutes}m ${seconds}s`;
+  }, 1000);
+}
+</script>
+</body>
+</html>
