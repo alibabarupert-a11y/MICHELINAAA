@@ -37,6 +37,7 @@ from{background-position:0 0;}
 to{background-position:-1000px 1000px;}
 }
 
+/* CONTENIDO */
 .container{
 position:relative;
 z-index:5;
@@ -92,16 +93,32 @@ font-size:24px;
 width:85%;
 max-width:420px;
 box-shadow:0 0 40px #ff2e88;
+position:fixed;
 }
 
 .closeBtn{
-margin-top:25px;
-background:#ff2e88;
+position:absolute;
+top:15px;
+right:20px;
+background:none;
 border:none;
-padding:14px 25px;
-border-radius:20px;
 color:white;
-font-size:16px;
+font-size:22px;
+cursor:pointer;
+}
+
+/* CORAZONES FUGACES */
+.shootingHeart{
+position:fixed;
+font-size:20px;
+z-index:2;
+animation:shoot 4s linear forwards;
+text-shadow:0 0 20px #ff4da6;
+}
+
+@keyframes shoot{
+0%{transform:translate(0,0) scale(1); opacity:1;}
+100%{transform:translate(-800px,800px) scale(0.5); opacity:0;}
 }
 
 /* SI GIGANTE */
@@ -123,6 +140,15 @@ box-shadow:0 0 40px #ff2e88;
 0%{transform:translate(-50%,-50%) scale(1);}
 50%{transform:translate(-50%,-50%) scale(1.15);}
 100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+#countdown{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:35px;
+text-shadow:0 0 20px #ff2e88;
 }
 
 </style>
@@ -147,33 +173,30 @@ con tu negro? ❤️
 
 <script>
 
+/* CORAZONES FUGACES */
+function createHeart(){
+let heart=document.createElement("div");
+heart.className="shootingHeart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*window.innerWidth+"px";
+heart.style.top=Math.random()*window.innerHeight/2+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+}
+setInterval(createHeart,900);
+
+/* MENSAJES NO */
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 
 let warnings=[
-"⚠️ ¿Estás completamente segura?",
-"🚨 Riesgo extremo de abrazos infinitos",
-"💘 Advertencia: nivel de amor subiendo",
-"🔥 Esto puede provocar besos inesperados",
-"💥 Tu corazón podría acelerarse",
-"📍 Detectando sentimientos intensos...",
-"😈 Última advertencia romántica",
-"💫 No hay vuelta atrás...",
-"⚡ El destino está observando...",
+"⚠️ ¿Segura?",
+"🚨 Peligro de abrazos infinitos",
+"💘 Amor detectado",
+"🔥 Besos inesperados en camino",
+"💫 El destino insiste...",
+"😈 No puedes escapar",
 "❌ Error 404"
-];
-
-let closeTexts=[
-"noooo",
-"no",
-"X",
-"imposible",
-"no puedes",
-"cancelar",
-"salir",
-"borrar",
-"cerrar",
-"intentar huir"
 ];
 
 let count=0;
@@ -184,32 +207,27 @@ if(count < warnings.length){
 
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`${warnings[count]}
-<br><button class="closeBtn">${closeTexts[count]}</button>`;
-
+box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
 document.body.appendChild(box);
 
 box.querySelector(".closeBtn").onclick=()=>{
-
 box.remove();
-
 if(warnings[count] === "❌ Error 404"){
 showBigYes();
 }
-
 };
 
 noBtn.style.transform="scale("+(1 - count*0.08)+")";
 
 count++;
-
 }
 
 });
 
+/* SI GIGANTE */
 function showBigYes(){
 
-document.body.innerHTML="";
+document.body.innerHTML="<div class='stars'></div>";
 
 let big=document.createElement("div");
 big.className="bigYes";
@@ -217,17 +235,28 @@ big.innerText="SÍ ❤️";
 document.body.appendChild(big);
 
 big.addEventListener("click",()=>{
-startCountdown();
+showLoveMessage();
 });
 
 }
 
-yesBtn.addEventListener("click",startCountdown);
+/* MENSAJE SABÍA QUE SÍ */
+function showLoveMessage(){
+
+document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
+
+setTimeout(()=>{
+startCountdown();
+},3000);
+
+}
+
+/* TEMPORIZADOR */
+yesBtn.addEventListener("click",showLoveMessage);
 
 function startCountdown(){
 
-document.body.innerHTML="<div class='stars'></div><div id='countdown' style='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:35px;text-shadow:0 0 20px #ff2e88;'></div>";
-
+document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
 let countdown=document.getElementById("countdown");
 
 let target=new Date();
