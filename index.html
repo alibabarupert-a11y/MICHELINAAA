@@ -39,12 +39,12 @@ to{background-position:-1000px 1000px;}
 .container{
 position:relative;
 z-index:5;
-top:15vh; /* Bajado un poco para móviles cortos */
+top:15vh;
 padding:10px;
 }
 
 h1{
-font-size:24px; /* Tamaño más pequeño para que no ocupe todo el móvil */
+font-size:24px;
 line-height:1.3;
 text-shadow:0 0 20px #ff4da6;
 }
@@ -53,6 +53,27 @@ text-shadow:0 0 20px #ff4da6;
 margin-top:20px;
 position:relative;
 display: inline-block;
+}
+
+/* ESTILO MINECRAFT SPLASH */
+#minecraftSplash {
+    position: absolute;
+    top: -25px;
+    right: -30px;
+    color: #ffff00; /* Amarillo Minecraft */
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 2px 2px #3f3f00; /* Sombra oscura */
+    transform: rotate(-20deg);
+    z-index: 100;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: mc-pulse 0.5s infinite alternate;
+}
+
+@keyframes mc-pulse {
+    from { transform: rotate(-20deg) scale(1); }
+    to { transform: rotate(-20deg) scale(1.1); }
 }
 
 #yes{
@@ -70,7 +91,7 @@ cursor:pointer;
 #no{
 position:absolute;
 left:50%;
-top:70px; /* Posición inicial fija debajo del SÍ */
+top:70px;
 transform: translateX(-50%);
 background:#222;
 color:white;
@@ -90,7 +111,7 @@ border-radius:20px;
 border:3px solid #ff2e88;
 z-index:9999;
 font-size:18px;
-width: 200px; /* Ancho fijo para que nunca se salga */
+width: 200px;
 box-shadow:0 0 30px #ff2e88;
 cursor: pointer;
 }
@@ -154,10 +175,12 @@ text-shadow:0 0 20px #ff2e88;
 <div class="stars"></div>
 
 <div class="container">
-<h1>Michelina ❤️<br>¿Quieres celebrar San Valentín<br>con tu negro? ❤️</h1>
+<h1>Michelina ❤️<br>¿Quieres celebrar San Valentín<br>conmigo? ❤️</h1>
 <div class="buttons">
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
+<!-- TEXTO MINECRAFT -->
+<div id="minecraftSplash">¿No lo ves?</div>
 </div>
 </div>
 
@@ -174,11 +197,15 @@ setTimeout(()=>heart.remove(),4000);
 setInterval(createHeart,800);
 
 let warnings=["⚠️ ¿Segura?", "ja ja que tontaaaa 😜", "imposibleeee", "one two tree 🌳", "hasta luego lucas 😏", "soy tu grano favorito", "😗 silbando...", ".........", "que no pesadaaa 😂", "vengaaaa casi", "tu puedes 💪", "amor detectado 💘", "no puedes escapar 😈", "última advertencia romántica", "❌ Error 404"];
+// FRASES ESTILO MINECRAFT
+let splashes = ["¿Tan difícil es?", "¿No lo ves?", "¡Dale al SÍ!", "Piénsalo bien...", "¡Esa no es!", "¡Error fatal!", "¿En serio?", "Sigue buscando"];
+
 let count=0;
 let activeMessages=0;
 
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
+const splashEl=document.getElementById("minecraftSplash");
 
 noBtn.addEventListener("click",()=>{
 if(count < warnings.length){
@@ -186,7 +213,6 @@ let box=document.createElement("div");
 box.className="messageBox";
 box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}<br><small style="font-size:10px">(Toca para cerrar)</small>`;
 
-// CÁLCULO PARA QUE NO SE SALGA DEL MÓVIL
 let maxX = window.innerWidth - 240;
 let maxY = window.innerHeight - 150;
 box.style.left = Math.max(10, Math.random() * maxX) + "px";
@@ -195,14 +221,15 @@ box.style.top = Math.max(10, Math.random() * maxY) + "px";
 document.body.appendChild(box);
 activeMessages++;
 
-// CERRAR AL TOCAR EL CUADRO
 box.onclick=()=>{
 box.remove();
 activeMessages--;
 if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
 };
 
-// MOVER BOTÓN NO DENTRO DE LA PANTALLA
+// CAMBIAR TEXTO MINECRAFT
+splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+
 noBtn.style.position = "fixed";
 noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
 noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
