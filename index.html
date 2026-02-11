@@ -6,43 +6,38 @@
 <title>Para Michelina ❤️</title>
 
 <style>
+
 body{
 margin:0;
 overflow:hidden;
 font-family:Arial, sans-serif;
-background:black;
 color:white;
 text-align:center;
+background: radial-gradient(circle at 30% 30%, #2b1055, #000814 60%, black);
 }
 
-/* Fondo galaxia real */
-#stars{
+/* Nebulosa efecto */
+body::before{
+content:"";
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
+width:200%;
+height:200%;
+background:
+radial-gradient(circle at 70% 40%, rgba(255,0,150,0.2), transparent 40%),
+radial-gradient(circle at 20% 70%, rgba(0,150,255,0.2), transparent 40%);
+animation:moveNebula 20s linear infinite;
 z-index:0;
 }
 
-.star{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-from{opacity:0.2;}
-to{opacity:1;}
+@keyframes moveNebula{
+from{transform:translate(-10%,-10%);}
+to{transform:translate(10%,10%);}
 }
 
 .container{
 position:relative;
-top:30vh;
 z-index:2;
+top:30vh;
 }
 
 button{
@@ -61,30 +56,9 @@ color:white;
 }
 
 #no{
-background:#444;
+background:#333;
 color:white;
 position:absolute;
-}
-
-.bigYes{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:60px;
-background:#ff1a75;
-padding:40px 80px;
-border-radius:50px;
-z-index:5;
-animation:heartbeat 1s infinite;
-}
-
-@keyframes heartbeat{
-0%{transform:translate(-50%,-50%) scale(1);}
-25%{transform:translate(-50%,-50%) scale(1.1);}
-50%{transform:translate(-50%,-50%) scale(1);}
-75%{transform:translate(-50%,-50%) scale(1.15);}
-100%{transform:translate(-50%,-50%) scale(1);}
 }
 
 .messageBox{
@@ -96,31 +70,69 @@ background:#111;
 padding:20px;
 border-radius:20px;
 border:2px solid #ff4d88;
-z-index:10;
+z-index:9999;
 }
 
 .closeBtn{
-cursor:pointer;
-font-weight:bold;
-display:block;
 margin-top:10px;
+cursor:pointer;
+background:#ff4d88;
+border:none;
+padding:8px 15px;
+border-radius:10px;
+color:white;
 }
+
+.bigYes{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:60px;
+background:#ff1a75;
+padding:40px 80px;
+border-radius:50px;
+z-index:10000;
+animation:heartbeat 1s infinite;
+}
+
+@keyframes heartbeat{
+0%{transform:translate(-50%,-50%) scale(1);}
+50%{transform:translate(-50%,-50%) scale(1.1);}
+100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+#countdown{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:35px;
+z-index:10000;
+}
+
+.heart{
+position:fixed;
+font-size:20px;
+animation:shoot 4s linear infinite;
+z-index:1;
+}
+
+@keyframes shoot{
+0%{transform:translateY(100vh) translateX(0); opacity:1;}
+100%{transform:translateY(-10vh) translateX(50px); opacity:0;}
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="stars"></div>
-
 <div class="container" id="main">
-<h1>Michelina mi negro ❤️<br>¿Quieres celebrar San Valentín conmigo?</h1>
+<h1>Michelina ❤️<br>¿Quieres celebrar San Valentín conmigo,<br>con tu negro? ❤️</h1>
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
 </div>
-
-<audio id="music">
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6bfe6b3d9d.mp3" type="audio/mpeg">
-</audio>
 
 <audio id="noSound">
 <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_7d1e7b4f02.mp3" type="audio/mpeg">
@@ -128,50 +140,50 @@ margin-top:10px;
 
 <script>
 
-const starsContainer = document.getElementById("stars");
-for(let i=0;i<200;i++){
-let star=document.createElement("div");
-star.className="star";
-star.style.top=Math.random()*100+"%";
-star.style.left=Math.random()*100+"%";
-starsContainer.appendChild(star);
+/* Corazones fugaces */
+function createFallingHearts(){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"%";
+heart.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
 }
+setInterval(createFallingHearts,600);
 
-const yesBtn=document.getElementById("yes");
+/* Botones */
 const noBtn=document.getElementById("no");
-const music=document.getElementById("music");
+const yesBtn=document.getElementById("yes");
 const noSound=document.getElementById("noSound");
 
 let warnings=[
-"⚠️ ¿Segura? Esto será MUY romántico...",
-"💥 Peligro: abrazos infinitos",
-"🚨 Riesgo alto de besos",
-"❌ Última oportunidad...",
-"Error 404: opción 'No' no disponible"
+"⚠️ ¿Segura?",
+"💥 Puede pasar algo peligroso...",
+"🚨 Riesgo alto de enamorarte más",
+"❌ Error 404",
 ];
 
-let clickCount=0;
+let count=0;
 
 noBtn.addEventListener("click",()=>{
 
 noSound.play();
 
-if(clickCount<warnings.length){
+if(count<warnings.length){
 
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`<p>${warnings[clickCount]}</p>
-<button class="closeBtn">Cerrar</button>`;
+box.innerHTML=`<p>${warnings[count]}</p>
+<button class="closeBtn">X</button>`;
 document.body.appendChild(box);
 
-box.querySelector(".closeBtn").onclick=()=>{
-box.remove();
-};
+box.querySelector(".closeBtn").onclick=()=>box.remove();
 
 noBtn.style.top=Math.random()*80+"%";
 noBtn.style.left=Math.random()*80+"%";
 
-clickCount++;
+count++;
 
 }else{
 
@@ -181,46 +193,46 @@ big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
 
-big.addEventListener("click",()=>{
-document.body.innerHTML="<h1 style='margin-top:40vh;'>Sabía que dirías que sí ❤️</h1>";
-createHearts();
-music.play();
-});
+big.addEventListener("click",startCountdown);
 
 }
 });
 
-yesBtn.addEventListener("click",()=>{
+yesBtn.addEventListener("click",startCountdown);
 
-music.play();
+/* TEMPORIZADOR */
+function startCountdown(){
 
-document.getElementById("main").innerHTML="<h1>Sabía que dirías que sí ❤️</h1>";
-createHearts();
+document.body.innerHTML="<div id='countdown'></div>";
+let countdown=document.getElementById("countdown");
 
-});
+let target=new Date();
+target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
+target.setHours(14,0,0);
 
-function createHearts(){
-for(let i=0;i<40;i++){
-let heart=document.createElement("div");
-heart.innerHTML="💖";
-heart.style.position="fixed";
-heart.style.left=Math.random()*100+"%";
-heart.style.top="-10px";
-heart.style.fontSize=Math.random()*20+20+"px";
-heart.style.animation="fall 3s linear";
-document.body.appendChild(heart);
+function update(){
 
-setTimeout(()=>heart.remove(),3000);
-}
+let now=new Date().getTime();
+let distance=target - now;
+
+if(distance<=0){
+countdown.innerHTML="Espera impaciente ❤️";
+return;
 }
 
-const style=document.createElement("style");
-style.innerHTML=`
-@keyframes fall{
-to{transform:translateY(100vh);}
+let days=Math.floor(distance/(1000*60*60*24));
+let hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+let seconds=Math.floor((distance%(1000*60))/1000);
+
+countdown.innerHTML=
+days+"d "+hours+"h "+minutes+"m "+seconds+"s ❤️";
 }
-`;
-document.head.appendChild(style);
+
+setInterval(update,1000);
+update();
+
+}
 
 </script>
 
