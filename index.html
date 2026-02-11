@@ -40,7 +40,7 @@ to{background-position:-1000px 1000px;}
 .container{
 position:relative;
 z-index:5;
-top:28vh;
+top:25vh;
 padding:20px;
 }
 
@@ -50,18 +50,20 @@ line-height:1.5;
 text-shadow:0 0 20px #ff4da6;
 }
 
+/* BOTONES CENTRADOS */
 .buttons{
 margin-top:30px;
+display:flex;
+justify-content:center;
+gap:40px;
 position:relative;
-height:80px;
 }
 
 #yes{
-position:relative;
 background:#ff2e88;
 color:white;
 box-shadow:0 0 20px #ff2e88;
-padding:15px 35px;
+padding:15px 40px;
 font-size:18px;
 border:none;
 border-radius:30px;
@@ -69,15 +71,34 @@ cursor:pointer;
 }
 
 #no{
-position:absolute;
-left:60%;
 background:#222;
 color:white;
-padding:15px 35px;
+padding:15px 40px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
+position:relative;
+}
+
+/* TEXTO TIPO MINECRAFT */
+.minecraft{
+position:absolute;
+top:60px;
+left:50%;
+transform:translateX(-50%) rotate(-15deg);
+color:yellow;
+font-size:14px;
+font-weight:bold;
+text-shadow:0 0 10px yellow;
+animation:pulse 1.5s infinite;
+pointer-events:none;
+}
+
+@keyframes pulse{
+0%{transform:translateX(-50%) rotate(-15deg) scale(1);}
+50%{transform:translateX(-50%) rotate(-15deg) scale(1.15);}
+100%{transform:translateX(-50%) rotate(-15deg) scale(1);}
 }
 
 /* MENSAJES */
@@ -124,7 +145,6 @@ text-shadow:0 0 20px #ff4da6;
 100%{transform:translate(-800px,800px); opacity:0;}
 }
 
-/* SI GIGANTE */
 .bigYes{
 position:fixed;
 top:50%;
@@ -145,15 +165,6 @@ box-shadow:0 0 40px #ff2e88;
 100%{transform:translate(-50%,-50%) scale(1);}
 }
 
-#countdown{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:35px;
-text-shadow:0 0 20px #ff2e88;
-}
-
 </style>
 </head>
 
@@ -172,9 +183,32 @@ con tu negro? ❤️
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
 </div>
+
+<div class="minecraft" id="splash">¿No lo ves o qué? →</div>
+
 </div>
 
 <script>
+
+/* FRASES TIPO MINECRAFT */
+let splashTexts=[
+"¿No lo ves o qué? →",
+"Está clarísimo →",
+"Mira el botón rosa →",
+"Yo que tú le daba →",
+"El destino apunta ahí →",
+"Sin miedo →",
+"No seas tímida →",
+"Es el correcto →"
+];
+
+let splash=document.getElementById("splash");
+let splashIndex=0;
+
+setInterval(()=>{
+splashIndex=(splashIndex+1)%splashTexts.length;
+splash.innerText=splashTexts[splashIndex];
+},2000);
 
 /* CORAZONES */
 function createHeart(){
@@ -188,22 +222,17 @@ setTimeout(()=>heart.remove(),4000);
 }
 setInterval(createHeart,800);
 
-/* FRASES */
+/* MENSAJES */
 let warnings=[
-"⚠️ ¿Segura?",
+"¿Segura?",
 "ja ja que tontaaaa 😜",
 "imposibleeee",
-"one two tree 🌳",
 "hasta luego lucas 😏",
 "soy tu grano favorito",
-"😗 silbando...",
-".........",
 "que no pesadaaa 😂",
 "vengaaaa casi",
 "tu puedes 💪",
-"amor detectado 💘",
-"no puedes escapar 😈",
-"última advertencia romántica",
+"última advertencia",
 "❌ Error 404"
 ];
 
@@ -223,7 +252,6 @@ box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
 
 box.style.top=Math.random()*70+"%";
 box.style.left=Math.random()*70+"%";
-box.style.transform="scale("+(1 + Math.random()*0.5)+") rotate("+(Math.random()*20-10)+"deg)";
 
 document.body.appendChild(box);
 activeMessages++;
@@ -233,63 +261,21 @@ box.remove();
 activeMessages--;
 
 if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){
+noBtn.style.display="none";
 showBigYes();
 }
 };
 
-noBtn.style.top=Math.random()*80+"%";
-noBtn.style.left=Math.random()*80+"%";
-noBtn.style.transform="scale("+(1 - count*0.05)+")";
-
 count++;
-
 }
 
 });
 
 function showBigYes(){
-document.body.innerHTML="<div class='stars'></div>";
 let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
-big.addEventListener("click",showLoveMessage);
-}
-
-yesBtn.addEventListener("click",showLoveMessage);
-
-function showLoveMessage(){
-document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
-setTimeout(startCountdown,3000);
-}
-
-function startCountdown(){
-document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
-let countdown=document.getElementById("countdown");
-
-let target=new Date();
-target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
-target.setHours(14,0,0);
-
-function update(){
-let now=new Date().getTime();
-let distance=target - now;
-
-if(distance<=0){
-countdown.innerHTML="Espera impaciente ❤️";
-return;
-}
-
-let d=Math.floor(distance/(1000*60*60*24));
-let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-let m=Math.floor((distance%(1000*60*60))/(1000*60));
-let s=Math.floor((distance%(1000*60))/1000);
-
-countdown.innerHTML=d+"d "+h+"h "+m+"m "+s+"s ❤️";
-}
-
-setInterval(update,1000);
-update();
 }
 
 </script>
