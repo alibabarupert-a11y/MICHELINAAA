@@ -47,10 +47,19 @@
             font-size: 24px;
             line-height: 1.3;
             text-shadow: 0 0 20px #ff4da6;
-            margin-bottom: 40px; /* Espacio para el splash */
+            margin-bottom: 40px;
         }
 
-        /* --- ESTILO MINECRAFT SPLASH --- */
+        /* Título Feliz San Valentín en Rojo */
+        .happy-title {
+            color: #ff0000;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff0000, 2px 2px 5px black;
+            margin-top: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
         .minecraft-splash {
             display: block;
             color: #ffff00;
@@ -67,12 +76,6 @@
         @keyframes splash-anim {
             from { transform: rotate(-15deg) scale(1); }
             to { transform: rotate(-15deg) scale(1.15); }
-        }
-
-        .buttons {
-            margin-top: 30px;
-            position: relative;
-            display: inline-block;
         }
 
         #yes {
@@ -100,30 +103,6 @@
             border: none;
             border-radius: 30px;
             cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .messageBox {
-            position: fixed;
-            background: #111;
-            padding: 20px;
-            border-radius: 20px;
-            border: 3px solid #ff2e88;
-            z-index: 9999;
-            font-size: 18px;
-            width: 200px;
-            box-shadow: 0 0 30px #ff2e88;
-            cursor: pointer;
-        }
-
-        .closeBtn {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: #ff2e88;
-            font-size: 16px;
         }
 
         .shootingHeart {
@@ -131,7 +110,6 @@
             font-size: 20px;
             z-index: 2;
             animation: shoot 4s linear forwards;
-            text-shadow: 0 0 20px #ff4da6;
         }
 
         @keyframes shoot {
@@ -139,29 +117,15 @@
             100% { transform: translate(-800px, 800px); opacity: 0; }
         }
 
-        .bigYes {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 50px;
-            background: #ff2e88;
-            padding: 40px 60px;
-            border-radius: 50px;
-            z-index: 10000;
-            animation: heartbeat 1s infinite;
-            box-shadow: 0 0 40px #ff2e88;
-        }
-
         @keyframes heartbeat {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.15); }
-            100% { transform: translate(-50%, -50%) scale(1); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         #countdown {
             position: fixed;
-            top: 50%;
+            top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 24px;
@@ -170,15 +134,11 @@
         }
     </style>
 </head>
-
 <body>
     <div class="stars"></div>
-
-    <div class="container">
+    <div id="main-content" class="container">
         <h1>Michelina ❤️<br>¿Quieres celebrar San Valentín<br>con tu negro? ❤️</h1>
-        <!-- EL SPLASH DE MINECRAFT -->
         <div id="splash" class="minecraft-splash">¿No lo ves o qué? 🤨</div>
-        
         <div class="buttons">
             <button id="yes">Sí ❤️</button>
             <button id="no">No ❌</button>
@@ -186,7 +146,7 @@
     </div>
 
     <script>
-        // --- CORAZONES FLOTANTES ---
+        // Lógica de corazones y splashes igual que antes...
         function createHeart() {
             let heart = document.createElement("div");
             heart.className = "shootingHeart";
@@ -198,102 +158,52 @@
         }
         setInterval(createHeart, 800);
 
-        // --- LÓGICA MINECRAFT SPLASH ---
-        const splashes = [
-            "¿No lo ves o qué? 🤨",
-            "¡Soy tu grano favorito! ✨",
-            "¡Nivel de amor: MAX! 🎮",
-            "¡Más valiosa que el diamante! 💎",
-            "¡Pícame el corazón! ⛏️",
-            "¿No ves el botón rosa? 😂",
-            "¡Cuidado con los Creepers! 💥",
-            "¡Eres mi bioma favorito! 🌲",
-            "¿Segura? Mira el Sí... 😏"
-        ];
-
-        function updateSplash() {
+        const splashes = ["¿No lo ves o qué? 🤨", "¡Nivel de amor: MAX! 🎮", "¡Pícame el corazón! ⛏️", "¡Eres mi bioma favorito! 🌲"];
+        setInterval(() => {
             const splashEl = document.getElementById("splash");
-            if(splashEl) {
-                const randomPhrase = splashes[Math.floor(Math.random() * splashes.length)];
-                splashEl.innerText = randomPhrase;
-            }
-        }
-        setInterval(updateSplash, 2000);
+            if(splashEl) splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+        }, 2000);
 
-        // --- LÓGICA DEL BOTÓN NO ---
-        let warnings = ["⚠️ ¿Segura?", "ja ja que tontaaaa 😜", "imposibleeee", "one two tree 🌳", "hasta luego lucas 😏", "soy tu grano favorito", "😗 silbando...", ".........", "que no pesadaaa 😂", "vengaaaa casi", "tu puedes 💪", "amor detectado 💘", "no puedes escapar 😈", "última advertencia romántica", "❌ Error 404"];
-        let count = 0;
-        let activeMessages = 0;
-
+        // Lógica del botón NO (simplificada para el ejemplo)
         const noBtn = document.getElementById("no");
-        const yesBtn = document.getElementById("yes");
-
-        noBtn.addEventListener("click", () => {
-            if (count < warnings.length) {
-                let box = document.createElement("div");
-                box.className = "messageBox";
-                box.innerHTML = `<button class="closeBtn">X</button>${warnings[count]}<br><small style="font-size:10px">(Toca para cerrar)</small>`;
-
-                let maxX = window.innerWidth - 240;
-                let maxY = window.innerHeight - 150;
-                box.style.left = Math.max(10, Math.random() * maxX) + "px";
-                box.style.top = Math.max(10, Math.random() * maxY) + "px";
-
-                document.body.appendChild(box);
-                activeMessages++;
-
-                box.onclick = () => {
-                    box.remove();
-                    activeMessages--;
-                    if (warnings[count - 1] === "❌ Error 404" && activeMessages === 0) { showBigYes(); }
-                };
-
-                noBtn.style.position = "fixed";
-                noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
-                noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
-                noBtn.style.transform = "scale(" + (1 - count * 0.05) + ")";
-                count++;
-            }
+        noBtn.addEventListener("mouseover", () => {
+            noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+            noBtn.style.position = "fixed";
         });
 
-        function showBigYes() {
-            document.body.innerHTML = "<div class='stars'></div>";
-            let big = document.createElement("div");
-            big.className = "bigYes";
-            big.innerText = "SÍ ❤️";
-            document.body.appendChild(big);
-            big.onclick = showLoveMessage;
-        }
-
-        yesBtn.onclick = showLoveMessage;
-
-        function showLoveMessage() {
-            document.body.innerHTML = "<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
-            setTimeout(startCountdown, 3000);
-        }
+        // AL PULSAR SÍ
+        document.getElementById("yes").onclick = function() {
+            document.body.innerHTML = `
+                <div class="stars"></div>
+                <div class="container">
+                    <div class="happy-title">❤️FELIZ SAN VALENTÍN❤️</div>
+                    <div id="countdown">Cargando momento especial...</div>
+                </div>`;
+            startCountdown();
+        };
 
         function startCountdown() {
-            document.body.innerHTML = "<div class='stars'></div><div id='countdown'></div>";
-            let countdown = document.getElementById("countdown");
-            
+            const countdownEl = document.getElementById("countdown");
             function update() {
                 let now = new Date();
                 let target = new Date();
-                let day = now.getDay();
-                let daysUntilFriday = (5 - day + 7) % 7;
+                let daysUntilFriday = (5 - now.getDay() + 7) % 7;
                 if (daysUntilFriday === 0 && now.getHours() >= 14) daysUntilFriday = 7;
-                
                 target.setDate(now.getDate() + daysUntilFriday);
                 target.setHours(14, 0, 0, 0);
 
-                let distance = target - now.getTime();
-                if (distance <= 0) { countdown.innerHTML = "¡Ya es la hora! ❤️"; return; }
-                
-                let d = Math.floor(distance / (1000 * 60 * 60 * 24));
-                let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                let s = Math.floor((distance % (1000 * 60)) / 1000);
-                countdown.innerHTML = "Faltan:<br>" + d + "d " + h + "h " + m + "m " + s + "s ❤️";
+                let distance = target - now;
+                if (distance <= 0) {
+                    countdownEl.innerHTML = "<br><br><span style='font-size:30px'>Esperaaa aun nooo cabezona 😂❤️</span>";
+                    return;
+                }
+
+                let d = Math.floor(distance / 86400000);
+                let h = Math.floor((distance % 86400000) / 3600000);
+                let m = Math.floor((distance % 3600000) / 60000);
+                let s = Math.floor((distance % 60000) / 1000);
+                countdownEl.innerHTML = `Faltan para nuestra cita:<br><br><b style="font-size:32px">${d}d ${h}h ${m}m ${s}s</b>`;
             }
             setInterval(update, 1000);
             update();
