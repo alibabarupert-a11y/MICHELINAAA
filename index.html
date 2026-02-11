@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Michelina ❤️</title>
+<title>Michelina ❤️</title>
 
 <style>
 
@@ -16,7 +16,7 @@ text-align:center;
 background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
 }
 
-/* ESTRELLAS */
+/* FONDO GALAXIA */
 .stars{
 position:fixed;
 width:100%;
@@ -37,11 +37,11 @@ from{background-position:0 0;}
 to{background-position:-1000px 1000px;}
 }
 
+/* CONTENIDO */
 .container{
 position:relative;
 z-index:5;
 top:25vh;
-padding:20px;
 }
 
 h1{
@@ -50,7 +50,6 @@ line-height:1.5;
 text-shadow:0 0 20px #ff4da6;
 }
 
-/* BOTONES CENTRADOS */
 .buttons{
 margin-top:30px;
 display:flex;
@@ -59,110 +58,80 @@ gap:40px;
 position:relative;
 }
 
-#yes{
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
+button{
 padding:15px 40px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
+transition:all 0.3s ease;
+}
+
+#yes{
+background:#ff2e88;
+color:white;
+box-shadow:0 0 20px #ff2e88;
 }
 
 #no{
 background:#222;
 color:white;
-padding:15px 40px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
 position:relative;
-}
-
-/* TEXTO TIPO MINECRAFT */
-.minecraft{
-position:absolute;
-top:60px;
-left:50%;
-transform:translateX(-50%) rotate(-15deg);
-color:yellow;
-font-size:14px;
-font-weight:bold;
-text-shadow:0 0 10px yellow;
-animation:pulse 1.5s infinite;
-pointer-events:none;
-}
-
-@keyframes pulse{
-0%{transform:translateX(-50%) rotate(-15deg) scale(1);}
-50%{transform:translateX(-50%) rotate(-15deg) scale(1.15);}
-100%{transform:translateX(-50%) rotate(-15deg) scale(1);}
 }
 
 /* MENSAJES */
 .messageBox{
 position:fixed;
 background:#111;
-padding:40px;
+padding:30px;
 border-radius:25px;
 border:3px solid #ff2e88;
 z-index:9999;
-font-size:22px;
-max-width:300px;
 box-shadow:0 0 30px #ff2e88;
-animation:float 3s ease-in-out infinite alternate;
-}
-
-@keyframes float{
-from{transform:translateY(0px);}
-to{transform:translateY(20px);}
 }
 
 .closeBtn{
 position:absolute;
-top:10px;
-right:15px;
+top:8px;
+right:12px;
 background:none;
 border:none;
 color:white;
-font-size:20px;
+font-size:18px;
 cursor:pointer;
 }
 
-/* CORAZONES */
-.shootingHeart{
-position:fixed;
-font-size:20px;
-z-index:2;
-animation:shoot 4s linear forwards;
-text-shadow:0 0 20px #ff4da6;
-}
-
-@keyframes shoot{
-0%{transform:translate(0,0); opacity:1;}
-100%{transform:translate(-800px,800px); opacity:0;}
-}
-
+/* SÍ GIGANTE FINAL */
 .bigYes{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:65px;
+font-size:70px;
 background:#ff2e88;
-padding:50px 90px;
+padding:60px 100px;
 border-radius:50px;
 z-index:10000;
 animation:heartbeat 1s infinite;
-box-shadow:0 0 40px #ff2e88;
+box-shadow:0 0 50px #ff2e88;
 }
 
 @keyframes heartbeat{
 0%{transform:translate(-50%,-50%) scale(1);}
 50%{transform:translate(-50%,-50%) scale(1.15);}
 100%{transform:translate(-50%,-50%) scale(1);}
+}
+
+.finalScreen{
+position:fixed;
+width:100%;
+height:100%;
+background: radial-gradient(circle, #2b0033, #000);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:11000;
 }
 
 </style>
@@ -183,99 +152,145 @@ con tu negro? ❤️
 <button id="yes">Sí ❤️</button>
 <button id="no">No ❌</button>
 </div>
-
-<div class="minecraft" id="splash">¿No lo ves o qué? →</div>
-
 </div>
 
 <script>
 
-/* FRASES TIPO MINECRAFT */
-let splashTexts=[
-"¿No lo ves o qué? →",
-"Está clarísimo →",
-"Mira el botón rosa →",
-"Yo que tú le daba →",
-"El destino apunta ahí →",
-"Sin miedo →",
-"No seas tímida →",
-"Es el correcto →"
-];
-
-let splash=document.getElementById("splash");
-let splashIndex=0;
-
-setInterval(()=>{
-splashIndex=(splashIndex+1)%splashTexts.length;
-splash.innerText=splashTexts[splashIndex];
-},2000);
-
-/* CORAZONES */
-function createHeart(){
-let heart=document.createElement("div");
-heart.className="shootingHeart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*window.innerWidth+"px";
-heart.style.top=Math.random()*window.innerHeight/2+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),4000);
-}
-setInterval(createHeart,800);
-
-/* MENSAJES */
 let warnings=[
 "¿Segura?",
 "ja ja que tontaaaa 😜",
 "imposibleeee",
+"one two tree 🌳",
 "hasta luego lucas 😏",
 "soy tu grano favorito",
 "que no pesadaaa 😂",
 "vengaaaa casi",
 "tu puedes 💪",
-"última advertencia",
+"noooo",
+"imposible",
+"ni de broma",
+"error en tu decisión",
+"esto no va así",
+"última oportunidad",
+"piénsalo bien",
+"segurísima?",
 "❌ Error 404"
 ];
 
 let count=0;
 let activeMessages=0;
+let errorBox=null;
 
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 
+/* BOTON NO */
 noBtn.addEventListener("click",()=>{
 
 if(count < warnings.length){
 
 let box=document.createElement("div");
 box.className="messageBox";
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
+
+let size=Math.random()*20+18;
+box.style.fontSize=size+"px";
 
 box.style.top=Math.random()*70+"%";
 box.style.left=Math.random()*70+"%";
 
+box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
+
 document.body.appendChild(box);
+
+if(warnings[count] === "❌ Error 404"){
+errorBox=box;
+}
+
 activeMessages++;
 
 box.querySelector(".closeBtn").onclick=()=>{
+
+if(box === errorBox){
+if(activeMessages === 1){
+box.remove();
+showBigYes();
+}
+}else{
 box.remove();
 activeMessages--;
-
-if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){
-noBtn.style.display="none";
-showBigYes();
 }
 };
 
 count++;
+
+/* mover y reducir NO */
+let currentSize=parseFloat(window.getComputedStyle(noBtn).fontSize);
+if(currentSize > 10){
+noBtn.style.fontSize=(currentSize-2)+"px";
+noBtn.style.transform=`translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
+}else{
+noBtn.style.opacity="0";
+}
+
 }
 
 });
 
+/* SÍ GIGANTE */
 function showBigYes(){
 let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
+
+big.onclick=()=>{
+showFinal();
+};
+}
+
+/* PANTALLA FINAL */
+function showFinal(){
+
+document.body.innerHTML="";
+
+let final=document.createElement("div");
+final.className="finalScreen";
+
+let text=document.createElement("h1");
+text.innerHTML="Sabía que dirías que sí ❤️<br><br>";
+
+let timer=document.createElement("div");
+timer.style.fontSize="25px";
+
+final.appendChild(text);
+final.appendChild(timer);
+document.body.appendChild(final);
+
+/* TEMPORIZADOR hasta viernes 14:00 */
+function updateTimer(){
+let now=new Date();
+let target=new Date();
+target.setHours(14,0,0,0);
+
+while(target < now){
+target.setDate(target.getDate()+1);
+}
+
+let diff=target-now;
+
+let h=Math.floor(diff/1000/60/60);
+let m=Math.floor(diff/1000/60)%60;
+let s=Math.floor(diff/1000)%60;
+
+timer.innerHTML="Cuenta atrás: "+h+"h "+m+"m "+s+"s ❤️";
+
+if(diff<=0){
+timer.innerHTML="Espera impaciente ❤️";
+}
+}
+
+setInterval(updateTimer,1000);
+
 }
 
 </script>
