@@ -125,7 +125,6 @@ color:#ff2e88;
 font-size:16px;
 }
 
-/* ESTILO CONFETI CORAZONES */
 .confetti {
     position: fixed;
     z-index: 9999;
@@ -162,6 +161,10 @@ z-index: 10;
 </div>
 </div>
 
+<!-- AUDIOS -->
+<audio id="errorSound" src="https://www.myinstants.com"></audio>
+<audio id="successSound" src="https://www.myinstants.com"></audio>
+
 <script>
 let warnings=["⚠️ ¿Segura?", "ja ja que tontaaaa 😜", "imposibleeee", "one two tree 🌳", "hasta luego lucas 😏", "soy tu grano favorito", "😗 silbando...", ".........", "que no pesadaaa 😂", "vengaaaa casi", "tu puedes 💪", "amor detectado 💘", "no puedes escapar 😈", "última advertencia romántica", "❌ Error 404"];
 let splashes = ["¿Tan difícil es?", "¿No lo ves?", "¡Dale al SÍ!", "Piénsalo bien...", "¡Esa no es!", "¡Error fatal!", "¿En serio?", "Sigue buscando"];
@@ -172,40 +175,47 @@ let activeMessages=0;
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const splashEl=document.getElementById("minecraftSplash");
+const errorSound = document.getElementById("errorSound");
+const successSound = document.getElementById("successSound");
 
 noBtn.addEventListener("click",()=>{
-if(count < warnings.length){
-let box=document.createElement("div");
-box.className="messageBox";
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
+    // SONIDO Y VIBRACIÓN DE ERROR
+    errorSound.currentTime = 0;
+    errorSound.play();
+    if (navigator.vibrate) navigator.vibrate(100);
 
-let maxX = window.innerWidth - 240;
-let maxY = window.innerHeight - 150;
-box.style.left = Math.max(10, Math.random() * maxX) + "px";
-box.style.top = Math.max(10, Math.random() * maxY) + "px";
+    if(count < warnings.length){
+        let box=document.createElement("div");
+        box.className="messageBox";
+        box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
 
-document.body.appendChild(box);
-activeMessages++;
+        let maxX = window.innerWidth - 240;
+        let maxY = window.innerHeight - 150;
+        box.style.left = Math.max(10, Math.random() * maxX) + "px";
+        box.style.top = Math.max(10, Math.random() * maxY) + "px";
 
-box.onclick=()=>{
-box.remove();
-activeMessages--;
-if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
-};
+        document.body.appendChild(box);
+        activeMessages++;
 
-splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
-noBtn.style.position = "fixed";
-noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
-noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
-noBtn.style.transform="scale("+(1 - count*0.05)+")";
-count++;
-}
+        box.onclick=()=>{
+            box.remove();
+            activeMessages--;
+            if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){ showBigYes(); }
+        };
+
+        splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+        noBtn.style.position = "fixed";
+        noBtn.style.left = Math.max(10, Math.random() * (window.innerWidth - 100)) + "px";
+        noBtn.style.top = Math.max(10, Math.random() * (window.innerHeight - 60)) + "px";
+        noBtn.style.transform="scale("+(1 - count*0.05)+")";
+        count++;
+    }
 });
 
 function createConfetti() {
     const hearts = ["❤️", "💖", "💝", "💕", "💗"];
     const colors = ["#ff2e88", "#ff4da6", "#ffffff", "#ff0000"];
-    for(let i = 0; i < 50; i++) {
+    for(let i = 0; i < 60; i++) {
         setTimeout(() => {
             const c = document.createElement("div");
             c.className = "confetti";
@@ -213,19 +223,18 @@ function createConfetti() {
             c.style.left = Math.random() * 100 + "vw";
             c.style.top = "-5vh";
             c.style.color = colors[Math.floor(Math.random() * colors.length)];
-            c.style.fontSize = Math.random() * 20 + 10 + "px";
+            c.style.fontSize = Math.random() * 20 + 15 + "px";
             c.style.animationDuration = Math.random() * 3 + 2 + "s";
             document.body.appendChild(c);
             setTimeout(() => c.remove(), 5000);
-        }, i * 100);
+        }, i * 80);
     }
 }
 
 function showBigYes(){
     document.body.innerHTML="<div class='stars'></div>";
     let big=document.createElement("div");
-    big.className="bigYes"; // Usará el estilo heartbeat que ya tenías
-    big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:heartbeat 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;";
+    big.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;background:#ff2e88;padding:40px 60px;border-radius:50px;z-index:10000;animation:heartbeat 1s infinite;box-shadow:0 0 40px #ff2e88;cursor:pointer;color:white;";
     big.innerText="SÍ ❤️";
     document.body.appendChild(big);
     big.onclick = showLoveMessage;
@@ -234,8 +243,12 @@ function showBigYes(){
 yesBtn.onclick = showLoveMessage;
 
 function showLoveMessage(){
+    // SONIDO Y VIBRACIÓN DE ÉXITO
+    successSound.play();
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
     document.body.innerHTML="<div class='stars'></div><div id='countdown'>Sabía que ibas a decir que sí ❤️</div>";
-    createConfetti(); // LANZA EL CONFETI
+    createConfetti();
     setTimeout(startCountdown,3000);
 }
 
