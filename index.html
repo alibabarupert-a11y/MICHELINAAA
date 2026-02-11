@@ -267,13 +267,22 @@ function startCountdown(){
 document.body.innerHTML="<div class='stars'></div><div id='countdown'></div>";
 let countdown=document.getElementById("countdown");
 
-let target=new Date();
-target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7));
-target.setHours(14,0,0);
+let now = new Date();
+let target = new Date();
+
+let day = now.getDay();
+let daysUntilFriday = (5 - day + 7) % 7;
+
+if(daysUntilFriday === 0 && now.getHours() >= 14){
+    daysUntilFriday = 7;
+}
+
+target.setDate(now.getDate() + daysUntilFriday);
+target.setHours(14,0,0,0);
 
 function update(){
-let now=new Date().getTime();
-let distance=target - now;
+let nowTime=new Date().getTime();
+let distance=target - nowTime;
 
 if(distance<=0){
 countdown.innerHTML="Espera impaciente ❤️";
