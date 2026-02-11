@@ -52,34 +52,35 @@ text-shadow:0 0 20px #ff4da6;
 
 .buttons{
 margin-top:30px;
-display:flex;
-justify-content:center;
-gap:30px;
 position:relative;
+height:80px;
 }
 
-button{
+#yes{
+position:relative;
+background:#ff2e88;
+color:white;
+box-shadow:0 0 20px #ff2e88;
 padding:15px 35px;
 font-size:18px;
 border:none;
 border-radius:30px;
 cursor:pointer;
-transition:0.3s;
-}
-
-#yes{
-background:#ff2e88;
-color:white;
-box-shadow:0 0 20px #ff2e88;
 }
 
 #no{
+position:absolute;
+left:60%;
 background:#222;
 color:white;
-position:absolute;
+padding:15px 35px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
 }
 
-/* MENSAJES CAOTICOS */
+/* MENSAJES */
 .messageBox{
 position:fixed;
 background:#111;
@@ -109,7 +110,7 @@ font-size:20px;
 cursor:pointer;
 }
 
-/* CORAZONES FUGACES */
+/* CORAZONES */
 .shootingHeart{
 position:fixed;
 font-size:20px;
@@ -123,6 +124,7 @@ text-shadow:0 0 20px #ff4da6;
 100%{transform:translate(-800px,800px); opacity:0;}
 }
 
+/* SI GIGANTE */
 .bigYes{
 position:fixed;
 top:50%;
@@ -206,6 +208,8 @@ let warnings=[
 ];
 
 let count=0;
+let activeMessages=0;
+
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 
@@ -222,17 +226,20 @@ box.style.left=Math.random()*70+"%";
 box.style.transform="scale("+(1 + Math.random()*0.5)+") rotate("+(Math.random()*20-10)+"deg)";
 
 document.body.appendChild(box);
+activeMessages++;
 
 box.querySelector(".closeBtn").onclick=()=>{
 box.remove();
-if(warnings[count] === "❌ Error 404"){
+activeMessages--;
+
+if(warnings[count-1] === "❌ Error 404" && activeMessages === 0){
 showBigYes();
 }
 };
 
 noBtn.style.top=Math.random()*80+"%";
 noBtn.style.left=Math.random()*80+"%";
-noBtn.style.transform="scale("+(1 - count*0.06)+")";
+noBtn.style.transform="scale("+(1 - count*0.05)+")";
 
 count++;
 
@@ -246,7 +253,6 @@ let big=document.createElement("div");
 big.className="bigYes";
 big.innerText="SÍ ❤️";
 document.body.appendChild(big);
-
 big.addEventListener("click",showLoveMessage);
 }
 
