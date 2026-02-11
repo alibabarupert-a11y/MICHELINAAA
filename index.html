@@ -1,147 +1,165 @@
-<script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín</title>
 
-/* ====== CORAZONES ====== */
-function createHeart(){
-let heart=document.createElement("div");
-heart.className="shootingHeart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*window.innerWidth+"px";
-heart.style.top=Math.random()*window.innerHeight/2+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),5000);
+<style>
+body{
+margin:0;
+overflow:hidden;
+font-family:Arial, sans-serif;
+background:radial-gradient(circle at center, #1b0033 0%, #000000 80%);
+color:white;
+text-align:center;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
-setInterval(createHeart,1000);
 
-/* ====== FRASES NO ====== */
-let warnings=[
-"¿Segura?",
-"ja que tontaaaa 😜",
-"imposibleeee",
-"one two tree 🌳",
+h1{
+font-size:28px;
+margin:0 20px;
+}
+
+.buttons{
+margin-top:30px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:20px;
+}
+
+button{
+padding:15px 40px;
+font-size:20px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+transition:0.3s;
+}
+
+#si{
+background:#ff2e63;
+color:white;
+}
+
+#no{
+background:#222;
+color:white;
+position:relative;
+}
+
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:30px;
+border-radius:15px;
+font-size:22px;
+z-index:9999;
+animation:pop 0.3s ease;
+}
+
+.popup button{
+position:absolute;
+top:5px;
+right:10px;
+background:none;
+font-size:20px;
+cursor:pointer;
+}
+
+@keyframes pop{
+from{transform:translate(-50%,-50%) scale(0);}
+to{transform:translate(-50%,-50%) scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<h1>Michelina ❤️<br>¿Quieres celebrar San Valentín con tu negro?</h1>
+
+<div class="buttons">
+<button id="si">SÍ</button>
+<button id="no">NO</button>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const siBtn = document.getElementById("si");
+
+let mensajes = [
+"ja que tontaaaa",
+"imposible",
+"one two tree",
 "hasta luego lucas",
-"soy tu grano favorito",
-"😗 silbando...",
+"soy tu grano favorito 😏",
+"😗",
+".........",
 "que no pesadaaa",
 "vengaaaa casi",
-"tu puedes 💪",
-"última oportunidad",
-"❌ Error 404"
+"tu puedes",
+"NOOOO",
+"Error 404"
 ];
 
-let count=0;
-let activeMessages=0;
+let contador = 0;
 
-const noBtn=document.getElementById("no");
-const yesBtn=document.getElementById("yes");
+noBtn.addEventListener("click", () => {
 
-noBtn.addEventListener("click",()=>{
+if(contador < mensajes.length){
 
-if(count < warnings.length){
+let popup = document.createElement("div");
+popup.className="popup";
+popup.innerHTML = mensajes[contador] + '<button>X</button>';
 
-let box=document.createElement("div");
-box.className="messageBox";
-box.innerHTML=`<button class="closeBtn">X</button>${warnings[count]}`;
+document.body.appendChild(popup);
 
-box.style.top=Math.random()*60+20+"%";
-box.style.left=Math.random()*60+20+"%";
-
-document.body.appendChild(box);
-activeMessages++;
-
-box.querySelector(".closeBtn").onclick=()=>{
-box.remove();
-activeMessages--;
-
-if(warnings[count-1]==="❌ Error 404" && activeMessages===0){
-showBigYes();
+popup.querySelector("button").onclick = ()=>{
+popup.remove();
+if(mensajes[contador] === "Error 404"){
+mostrarSiGigante();
 }
 };
 
-noBtn.style.transform=`translate(${Math.random()*150-75}px, ${Math.random()*150-75}px) scale(${1 - count*0.06})`;
+contador++;
 
-if(warnings[count]==="❌ Error 404"){
-noBtn.style.display="none";
+let x = Math.random() * (window.innerWidth - 150);
+let y = Math.random() * (window.innerHeight - 80);
+noBtn.style.position="absolute";
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
+let size = 20 - contador;
+if(size > 8){
+noBtn.style.fontSize = size + "px";
 }
 
-count++;
+navigator.vibrate?.(100);
 
 }
-
 });
 
-/* ====== FUNCION FINAL ====== */
-function startLoveSequence(){
-
-document.body.innerHTML="<div class='stars'></div>";
-
-let msg=document.createElement("h1");
-msg.innerText="Sabía que ibas a decir que sí ❤️";
-msg.style.marginTop="40vh";
-document.body.appendChild(msg);
-
-/* Vibración compatible */
-if(navigator.vibrate){
-navigator.vibrate([200,100,200]);
+function mostrarSiGigante(){
+siBtn.style.position="fixed";
+siBtn.style.top="50%";
+siBtn.style.left="50%";
+siBtn.style.transform="translate(-50%,-50%) scale(3)";
+siBtn.style.zIndex="99999";
 }
 
-setTimeout(()=>{
-msg.remove();
-showCountdown();
-},3000);
-
-}
-
-/* ====== TEMPORIZADOR ====== */
-function showCountdown(){
-
-let container=document.createElement("div");
-container.style.marginTop="35vh";
-container.style.fontSize="28px";
-container.id="countdown";
-document.body.appendChild(container);
-
-let target=new Date();
-target.setDate(target.getDate() + ((5 - target.getDay() + 7) % 7)); // próximo viernes
-target.setHours(14,0,0,0);
-
-let interval=setInterval(()=>{
-let now=new Date();
-let diff=target-now;
-
-if(diff<=0){
-clearInterval(interval);
-container.innerHTML="Espera impaciente ❤️";
-
-if(navigator.vibrate){
-navigator.vibrate([300,100,300,100,300]);
-}
-
-return;
-}
-
-let days=Math.floor(diff/(1000*60*60*24));
-let hours=Math.floor((diff/(1000*60*60))%24);
-let minutes=Math.floor((diff/1000/60)%60);
-let seconds=Math.floor((diff/1000)%60);
-
-container.innerHTML=
-`${days}d ${hours}h ${minutes}m ${seconds}s ❤️`;
-
-},1000);
-
-}
-
-/* ====== SI GIGANTE ====== */
-function showBigYes(){
-document.body.innerHTML="<div class='stars'></div>";
-let big=document.createElement("div");
-big.className="bigYes";
-big.innerText="SÍ ❤️";
-big.onclick=startLoveSequence;
-document.body.appendChild(big);
-}
-
-/* ====== SI NORMAL ====== */
-yesBtn.addEventListener("click",startLoveSequence);
-
+siBtn.addEventListener("click",()=>{
+alert("Sabía que ibas a decir que sí 😏❤️");
+});
 </script>
+
+</body>
+</html>
